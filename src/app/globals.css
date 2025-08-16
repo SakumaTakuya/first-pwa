@@ -25,7 +25,3 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
-.floating-element {
-  /* Position above the keyboard on supported browsers */
-  bottom: max(calc(env(keyboard-inset-height, 0px) + calc(var(--spacing))), calc(var(--spacing) * 20));
-}
