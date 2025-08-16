@@ -14,12 +14,6 @@ export default function manifest(): MetadataRoute.Manifest {
     theme_color: '#0F172A', // From design guidelines
     icons: [
       {
-        src: '/first-pwa/favicon.ico', // This exists
-        sizes: 'any',
-        type: 'image/x-icon',
-      },
-      // Add more placeholder icons for different sizes
-      {
         src: '/icon-192.png',
         type: 'image/png',
         sizes: '192x192',
