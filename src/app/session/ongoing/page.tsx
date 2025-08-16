@@ -11,17 +11,14 @@ export default function OngoingSessionPage() {
   const exercises = exercisesFromStore || [];
   const [isModalOpen, setIsModalOpen] = useState(false);
   const router = useRouter();
-  const [hasHydrated, setHasHydrated] = useState(useSessionStore.persist.hasHydrated());
+  const [hasHydrated, setHasHydrated] = useState(false);
 
   useEffect(() => {
+    setHasHydrated(useSessionStore.persist.hasHydrated());
+
     const unsub = useSessionStore.persist.onFinishHydration(() => {
       setHasHydrated(true);
     });
-
-    // Fallback if onFinishHydration is not called
-    if (useSessionStore.persist.hasHydrated()) {
-        setHasHydrated(true);
-    }
 
     return () => {
       unsub();
