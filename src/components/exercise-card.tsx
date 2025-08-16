@@ -20,34 +20,51 @@ const SetRow = ({ set, sessionExerciseId, isEditing, onStartEdit, onCancelEdit }
   const [weight, setWeight] = useState(set.weight.toString());
   const [reps, setReps] = useState(set.reps.toString());
 
-  const handleSave = () => {
+  const editRepsInputRef = useRef<HTMLInputElement>(null);
+
+  const handleSave = (e: React.FormEvent) => {
+    e.preventDefault();
     const weightNum = parseFloat(weight);
     const repsNum = parseInt(reps, 10);
     if (!isNaN(weightNum) && !isNaN(repsNum)) {
       updateSet(sessionExerciseId, set.id, weightNum, repsNum);
     }
-    onCancelEdit(); // Exit editing mode regardless of save success
+    onCancelEdit(); // Exit editing mode
+  };
+
+  const handleEditWeightKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      editRepsInputRef.current?.focus();
+    }
   };
 
   if (isEditing) {
     return (
-      <li className="flex items-center gap-2 bg-background p-2 rounded-lg">
-        <input 
-          type="number" 
-          value={weight} 
-          onChange={e => setWeight(e.target.value)}
-          className="w-full bg-surface text-text-main rounded-lg px-2 py-1 border-none focus:ring-2 focus:ring-primary"
-        />
-        <span className="text-text-sub">kg x</span>
-        <input 
-          type="number" 
-          value={reps} 
-          onChange={e => setReps(e.target.value)}
-          className="w-full bg-surface text-text-main rounded-lg px-2 py-1 border-none focus:ring-2 focus:ring-primary"
-        />
-        <span className="text-text-sub">reps</span>
-        <button onClick={handleSave} className="p-1 text-green-400 hover:text-green-300"><Check size={20} /></button>
-        <button onClick={onCancelEdit} className="p-1 text-red-400 hover:text-red-300"><X size={20} /></button>
+      <li className="bg-background p-2 rounded-lg">
+        <form onSubmit={handleSave} className="flex items-center gap-2">
+          <input 
+            type="number" 
+            value={weight} 
+            onChange={e => setWeight(e.target.value)}
+            onKeyDown={handleEditWeightKeyDown}
+            enterKeyHint="next"
+            className="w-full bg-surface text-text-main rounded-lg px-2 py-1 border-none focus:ring-2 focus:ring-primary"
+            autoFocus
+          />
+          <span className="text-text-sub">kg x</span>
+          <input 
+            ref={editRepsInputRef}
+            type="number" 
+            value={reps} 
+            onChange={e => setReps(e.target.value)}
+            enterKeyHint="done"
+            className="w-full bg-surface text-text-main rounded-lg px-2 py-1 border-none focus:ring-2 focus:ring-primary"
+          />
+          <span className="text-text-sub">reps</span>
+          <button type="submit" className="p-1 text-green-400 hover:text-green-300"><Check size={20} /></button>
+          <button type="button" onClick={onCancelEdit} className="p-1 text-red-400 hover:text-red-300"><X size={20} /></button>
+        </form>
       </li>
     );
   }
