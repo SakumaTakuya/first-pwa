@@ -6,6 +6,7 @@ import { ExerciseCard } from '@/components/exercise-card';
 import { AddExerciseModal } from '@/components/add-exercise-modal';
 import { useRouter } from 'next/navigation';
 import { db } from '@/lib/db';
+import { Plus } from 'lucide-react';
 
 export default function OngoingSessionPage() {
   const { exercises: exercisesFromStore, clearSession, isActive } = useSessionStore();
@@ -77,12 +78,13 @@ export default function OngoingSessionPage() {
         )}
       </main>
 
-      <div className="fixed bottom-20 right-6">
+      {/* Floating Action Button */}
+      <div className="fixed right-6 floating-element">
         <button
           onClick={() => setIsModalOpen(true)}
           className="bg-accent text-white rounded-full w-16 h-16 flex items-center justify-center shadow-lg text-3xl font-bold"
         >
-          +
+          <Plus size={32} />
         </button>
       </div>
 
