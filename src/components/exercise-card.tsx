@@ -1,27 +1,93 @@
 'use client';
 
 import { useState, useRef, type KeyboardEvent } from 'react';
-import type { SessionExercise } from '@/stores/session-store';
+import type { SessionExercise, Set } from '@/stores/session-store';
 import { useSessionStore } from '@/stores/session-store';
+import { Pencil, Check, X } from 'lucide-react';
 
+// Props for the SetRow component
+interface SetRowProps {
+  set: Set;
+  sessionExerciseId: string;
+  isEditing: boolean;
+  onStartEdit: (set: Set) => void;
+  onCancelEdit: () => void;
+}
+
+// A single row in the logged sets list, handling its own edit state.
+const SetRow = ({ set, sessionExerciseId, isEditing, onStartEdit, onCancelEdit }: SetRowProps) => {
+  const { updateSet } = useSessionStore();
+  const [weight, setWeight] = useState(set.weight.toString());
+  const [reps, setReps] = useState(set.reps.toString());
+
+  const handleSave = () => {
+    const weightNum = parseFloat(weight);
+    const repsNum = parseInt(reps, 10);
+    if (!isNaN(weightNum) && !isNaN(repsNum)) {
+      updateSet(sessionExerciseId, set.id, weightNum, repsNum);
+    }
+    onCancelEdit(); // Exit editing mode regardless of save success
+  };
+
+  if (isEditing) {
+    return (
+      <li className="flex items-center gap-2 bg-background p-2 rounded-lg">
+        <input 
+          type="number" 
+          value={weight} 
+          onChange={e => setWeight(e.target.value)}
+          className="w-full bg-surface text-text-main rounded-lg px-2 py-1 border-none focus:ring-2 focus:ring-primary"
+        />
+        <span className="text-text-sub">kg x</span>
+        <input 
+          type="number" 
+          value={reps} 
+          onChange={e => setReps(e.target.value)}
+          className="w-full bg-surface text-text-main rounded-lg px-2 py-1 border-none focus:ring-2 focus:ring-primary"
+        />
+        <span className="text-text-sub">reps</span>
+        <button onClick={handleSave} className="p-1 text-green-400 hover:text-green-300"><Check size={20} /></button>
+        <button onClick={onCancelEdit} className="p-1 text-red-400 hover:text-red-300"><X size={20} /></button>
+      </li>
+    );
+  }
+
+  return (
+    <li className="flex justify-between items-center bg-background p-2 rounded-lg">
+      <div className="flex items-center gap-4">
+        <span className="text-text-main font-medium">{set.weight} kg</span>
+        <span className="text-text-sub">x</span>
+        <span className="text-text-main font-medium">{set.reps} reps</span>
+      </div>
+      <button onClick={() => onStartEdit(set)} className="p-1 text-text-sub hover:text-accent">
+        <Pencil size={16} />
+      </button>
+    </li>
+  );
+}
+
+// Props for the main ExerciseCard component
 interface ExerciseCardProps {
   sessionExercise: SessionExercise;
 }
 
 export const ExerciseCard = ({ sessionExercise }: ExerciseCardProps) => {
   const { addSetToExercise } = useSessionStore();
-  const [weight, setWeight] = useState('');
-  const [reps, setReps] = useState('');
+  const [newWeight, setNewWeight] = useState('');
+  const [newReps, setNewReps] = useState('');
+  const [editingSetId, setEditingSetId] = useState<string | null>(null);
+
   const weightInputRef = useRef<HTMLInputElement>(null);
   const repsInputRef = useRef<HTMLInputElement>(null);
 
   const handleAddSet = (e: React.FormEvent) => {
     e.preventDefault();
-    const weightNum = parseFloat(weight);
-    const repsNum = parseInt(reps, 10);
+    const weightNum = parseFloat(newWeight);
+    const repsNum = parseInt(newReps, 10);
 
     if (!isNaN(weightNum) && !isNaN(repsNum)) {
       addSetToExercise(sessionExercise.id, { weight: weightNum, reps: repsNum });
+      // Per user feedback, inputs are not cleared.
       weightInputRef.current?.focus();
     }
   };
@@ -36,28 +102,28 @@ export const ExerciseCard = ({ sessionExercise }: ExerciseCardProps) => {
   return (
     <div className="bg-surface rounded-xl shadow-md p-4 w-full">
       <h3 className="text-xl font-bold text-text-main mb-4">{sessionExercise.exerciseName}</h3>
-
-      {/* Logged Sets */}
+      
       <ul className="space-y-2 mb-4">
-        {sessionExercise.sets.map((set, index) => (
-          <li key={set.id} className="flex justify-between items-center bg-background p-2 rounded-lg">
-            <span className="text-text-sub">{index + 1}.</span>
-            <span className="text-text-main font-medium">{set.weight} kg</span>
-            <span className="text-text-sub">x</span>
-            <span className="text-text-main font-medium">{set.reps} reps</span>
-          </li>
+        {sessionExercise.sets.map((set) => (
+          <SetRow 
+            key={set.id} 
+            set={set}
+            sessionExerciseId={sessionExercise.id}
+            isEditing={editingSetId === set.id}
+            onStartEdit={(setToEdit) => setEditingSetId(setToEdit.id)}
+            onCancelEdit={() => setEditingSetId(null)}
+          />
         ))}
       </ul>
 
-      {/* Add Set Form */}
       <form onSubmit={handleAddSet}>
         <div className="flex items-center gap-2">
           <input
             ref={weightInputRef}
             type="number"
             placeholder="重量(kg)"
-            value={weight}
-            onChange={(e) => setWeight(e.target.value)}
+            value={newWeight}
+            onChange={(e) => setNewWeight(e.target.value)}
             onKeyDown={handleWeightKeyDown}
             enterKeyHint="next"
             className="w-full bg-background text-text-main rounded-lg px-3 py-2 border-none focus:ring-2 focus:ring-primary"
@@ -66,8 +132,8 @@ export const ExerciseCard = ({ sessionExercise }: ExerciseCardProps) => {
             ref={repsInputRef}
             type="number"
             placeholder="回数"
-            value={reps}
-            onChange={(e) => setReps(e.target.value)}
+            value={newReps}
+            onChange={(e) => setNewReps(e.target.value)}
             enterKeyHint="done"
             className="w-full bg-background text-text-main rounded-lg px-3 py-2 border-none focus:ring-2 focus:ring-primary"
           />

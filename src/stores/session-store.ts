@@ -20,6 +20,7 @@ interface SessionState {
   startSession: () => void;
   addExerciseToSession: (exercise: { id: string; name: string }) => void;
   addSetToExercise: (sessionExerciseId: string, set: Omit<Set, 'id'>) => void;
+  updateSet: (sessionExerciseId: string, setId: string, newWeight: number, newReps: number) => void;
   clearSession: () => void;
 }
 
@@ -43,6 +44,22 @@ export const useSessionStore = create<SessionState>()(
           exercises: state.exercises.map((ex) =>
             ex.id === sessionExerciseId
               ? { ...ex, sets: [...ex.sets, { ...newSet, id: crypto.randomUUID() }] }
+              : ex
+          ),
+        }));
+      },
+      updateSet: (sessionExerciseId, setId, newWeight, newReps) => {
+        set((state) => ({
+          exercises: state.exercises.map((ex) =>
+            ex.id === sessionExerciseId
+              ? {
+                  ...ex,
+                  sets: ex.sets.map((set) =>
+                    set.id === setId
+                      ? { ...set, weight: newWeight, reps: newReps }
+                      : set
+                  ),
+                }
               : ex
           ),
         }));
