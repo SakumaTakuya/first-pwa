@@ -77,7 +77,7 @@ export default function OngoingSessionPage() {
         )}
       </main>
 
-      <div className="fixed bottom-6 right-6">
+      <div className="fixed bottom-20 right-6">
         <button
           onClick={() => setIsModalOpen(true)}
           className="bg-accent text-white rounded-full w-16 h-16 flex items-center justify-center shadow-lg text-3xl font-bold"
