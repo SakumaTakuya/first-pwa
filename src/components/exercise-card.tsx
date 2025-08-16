@@ -43,9 +43,9 @@ const SetRow = ({ set, sessionExerciseId, isEditing, onStartEdit, onCancelEdit }
     return (
       <li className="bg-background p-2 rounded-lg">
         <form onSubmit={handleSave} className="flex items-center gap-2">
-          <input 
-            type="number" 
-            value={weight} 
+          <input
+            type="number"
+            value={weight}
             onChange={e => setWeight(e.target.value)}
             onKeyDown={handleEditWeightKeyDown}
             enterKeyHint="next"
@@ -53,10 +53,10 @@ const SetRow = ({ set, sessionExerciseId, isEditing, onStartEdit, onCancelEdit }
             autoFocus
           />
           <span className="text-text-sub">kg x</span>
-          <input 
+          <input
             ref={editRepsInputRef}
-            type="number" 
-            value={reps} 
+            type="number"
+            value={reps}
             onChange={e => setReps(e.target.value)}
             enterKeyHint="done"
             className="w-full bg-surface text-text-main rounded-lg px-2 py-1 border-none focus:ring-2 focus:ring-primary"
@@ -119,11 +119,11 @@ export const ExerciseCard = ({ sessionExercise }: ExerciseCardProps) => {
   return (
     <div className="bg-surface rounded-xl shadow-md p-4 w-full">
       <h3 className="text-xl font-bold text-text-main mb-4">{sessionExercise.exerciseName}</h3>
-      
+
       <ul className="space-y-2 mb-4">
         {sessionExercise.sets.map((set) => (
-          <SetRow 
-            key={set.id} 
+          <SetRow
+            key={set.id}
             set={set}
             sessionExerciseId={sessionExercise.id}
             isEditing={editingSetId === set.id}
@@ -154,9 +154,7 @@ export const ExerciseCard = ({ sessionExercise }: ExerciseCardProps) => {
             enterKeyHint="done"
             className="w-full bg-background text-text-main rounded-lg px-3 py-2 border-none focus:ring-2 focus:ring-primary"
           />
-          <button type="submit" className="bg-primary text-white font-bold rounded-lg px-4 py-2">
-            追加
-          </button>
+          <button type="submit" className="p-1 text-green-400 hover:text-green-300"><Check size={20} /></button>
         </div>
       </form>
     </div>
