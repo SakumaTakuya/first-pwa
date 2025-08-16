@@ -27,5 +27,5 @@ body {
 
 .floating-element {
   /* Position above the keyboard on supported browsers */
-  bottom: max(calc(env(keyboard-inset-height, 0px) + 1.5rem), var(--spacing) * 20);
+  bottom: max(calc(env(keyboard-inset-height, 0px) + calc(var(--spacing))), calc(var(--spacing) * 20));
 }
