@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useRef, type KeyboardEvent } from 'react';
 import type { SessionExercise } from '@/stores/session-store';
 import { useSessionStore } from '@/stores/session-store';
 
@@ -12,6 +12,8 @@ export const ExerciseCard = ({ sessionExercise }: ExerciseCardProps) => {
   const { addSetToExercise } = useSessionStore();
   const [weight, setWeight] = useState('');
   const [reps, setReps] = useState('');
+  const weightInputRef = useRef<HTMLInputElement>(null);
+  const repsInputRef = useRef<HTMLInputElement>(null);
 
   const handleAddSet = (e: React.FormEvent) => {
     e.preventDefault();
@@ -20,15 +22,22 @@ export const ExerciseCard = ({ sessionExercise }: ExerciseCardProps) => {
 
     if (!isNaN(weightNum) && !isNaN(repsNum)) {
       addSetToExercise(sessionExercise.id, { weight: weightNum, reps: repsNum });
-      setWeight('');
-      setReps('');
+      weightInputRef.current?.focus();
+    }
+  };
+
+  const handleWeightKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
+    console.log(e.key)
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      repsInputRef.current?.focus();
     }
   };
 
   return (
-    <div className="bg-surface rounded-xl shadow-md p-4 w-full">
+    <form onSubmit={handleAddSet} className="bg-surface rounded-xl shadow-md p-4 w-full">
       <h3 className="text-xl font-bold text-text-main mb-4">{sessionExercise.exerciseName}</h3>
-      
+
       {/* Logged Sets */}
       <ul className="space-y-2 mb-4">
         {sessionExercise.sets.map((set, index) => (
@@ -42,25 +51,30 @@ export const ExerciseCard = ({ sessionExercise }: ExerciseCardProps) => {
       </ul>
 
       {/* Add Set Form */}
-      <form onSubmit={handleAddSet} className="flex items-center gap-2">
+      <div className="flex items-center gap-2">
         <input
+          ref={weightInputRef}
           type="number"
           placeholder="重量(kg)"
           value={weight}
           onChange={(e) => setWeight(e.target.value)}
+          onKeyDown={handleWeightKeyDown}
+          enterKeyHint="next"
           className="w-full bg-background text-text-main rounded-lg px-3 py-2 border-none focus:ring-2 focus:ring-primary"
         />
         <input
+          ref={repsInputRef}
           type="number"
           placeholder="回数"
           value={reps}
           onChange={(e) => setReps(e.target.value)}
+          enterKeyHint="done"
           className="w-full bg-background text-text-main rounded-lg px-3 py-2 border-none focus:ring-2 focus:ring-primary"
         />
         <button type="submit" className="bg-primary text-white font-bold rounded-lg px-4 py-2">
           追加
         </button>
-      </form>
-    </div>
+      </div>
+    </form>
   );
 };
