@@ -194,3 +194,16 @@ UIに奥行きとモダンな雰囲気を与えるため、カードやナビゲ
 | 閉じる     | `X`                 | `fa-times`           |
 | 履歴       | `History`           | `fa-chart-line`      |
 | ダンベル   | `Dumbbell`          | `fa-dumbbell`        |
+
+# 16. 静的サイト生成とデプロイ
+
+本プロジェクトは、静的サイトとしてビルドされ、GitHub Pagesにデプロイされるように構成されています。
+
+## 静的サイト生成
+- `next.config.ts` に `output: 'export'` を設定しています。
+- これにより、`npm run build` を実行すると、サーバーを必要としない静的なHTML、CSS、JavaScriptが `out` ディレクトリに生成されます。
+
+## GitHub Pages へのデプロイ
+- デプロイは、`.github/workflows/deploy.yml` に定義されたGitHub Actionsワークフローによって自動化されています。
+- `main` ブランチにプッシュされると、ワークフローが自動的にサイトをビルドし、`gh-pages` ブランチにデプロイします。
+- GitHub Pagesのサブディレクトリ（例: `/first-pwa/`）で正しく動作するように、`next.config.ts` には `basePath: '/first-pwa'` が設定されています。
