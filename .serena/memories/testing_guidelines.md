@@ -1,0 +1,3 @@
+The `GEMINI.md` file specifies that unit tests should be created using Jest. Test files should be located in the same directory as the corresponding source file, with a `.test.ts` or `.test.tsx` extension.
+
+**Contradiction**: The `package.json` file does not currently include any dependencies for Jest or any other testing framework. This suggests that while the intention is to use Jest, the testing setup has not yet been implemented.

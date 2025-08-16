@@ -1,0 +1,1 @@
+This is a Next.js project bootstrapped with `create-next-app`. It is configured as a Progressive Web App (PWA) using `next-pwa`. The `GEMINI.md` file suggests that the project is a fitness training application, but the `README.md` is generic.

@@ -1,0 +1,10 @@
+- `src/app/`: Contains the main application code, following the Next.js App Router structure.
+  - `layout.tsx`: The root layout.
+  - `page.tsx`: The main page.
+  - `globals.css`: Global stylesheets.
+- `public/`: Contains static assets, including the PWA manifest (`manifest.json`) and the service worker (`sw.js`).
+- `types/`: Contains TypeScript type definitions.
+- `package.json`: Defines project scripts and dependencies.
+- `next.config.ts`: Configuration for Next.js and `next-pwa`.
+- `GEMINI.md`: Contains detailed coding standards and design guidelines.
+- `README.md`: Generic project README.

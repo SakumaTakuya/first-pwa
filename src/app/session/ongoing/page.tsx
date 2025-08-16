@@ -1,0 +1,82 @@
+'use client';
+
+import { useState, useEffect } from 'react';
+import { useSessionStore } from '@/stores/session-store';
+import { ExerciseCard } from '@/components/exercise-card';
+import { AddExerciseModal } from '@/components/add-exercise-modal';
+import { useRouter } from 'next/navigation';
+
+export default function OngoingSessionPage() {
+  const { exercises: exercisesFromStore, clearSession, isActive } = useSessionStore();
+  const exercises = exercisesFromStore || [];
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const router = useRouter();
+  const [hasHydrated, setHasHydrated] = useState(useSessionStore.persist.hasHydrated());
+
+  useEffect(() => {
+    const unsub = useSessionStore.persist.onFinishHydration(() => {
+      setHasHydrated(true);
+    });
+
+    // Fallback if onFinishHydration is not called
+    if (useSessionStore.persist.hasHydrated()) {
+        setHasHydrated(true);
+    }
+
+    return () => {
+      unsub();
+    };
+  }, []);
+
+  useEffect(() => {
+    if (hasHydrated && !isActive) {
+      router.push('/');
+    }
+  }, [hasHydrated, isActive, router]);
+
+  const handleEndSession = () => {
+    if (window.confirm('本当にトレーニングを終了しますか？')) {
+      clearSession();
+      router.push('/');
+    }
+  };
+
+  if (!hasHydrated) {
+    return <div className="min-h-screen bg-background"></div>; // Render nothing or a loader
+  }
+
+  return (
+    <div className="min-h-screen bg-background text-text-main p-4 sm:p-6">
+      <header className="flex justify-between items-center mb-6">
+        <h1 className="text-2xl font-bold">トレーニング中</h1>
+        <button
+          onClick={handleEndSession}
+          className="bg-destructive text-white font-bold rounded-lg px-4 py-2 text-sm"
+        >
+          終了
+        </button>
+      </header>
+
+      <main className="space-y-4 pb-24"> {/* Add padding to bottom */}
+        {exercises.length === 0 ? (
+          <div className="text-center py-16">
+            <p className="text-text-sub">まだ種目が追加されていません。</p>
+          </div>
+        ) : (
+          exercises.map((ex) => <ExerciseCard key={ex.id} sessionExercise={ex} />)
+        )}
+      </main>
+
+      <div className="fixed bottom-6 right-6">
+        <button
+          onClick={() => setIsModalOpen(true)}
+          className="bg-accent text-white rounded-full w-16 h-16 flex items-center justify-center shadow-lg text-3xl font-bold"
+        >
+          +
+        </button>
+      </div>
+
+      {isModalOpen && <AddExerciseModal onClose={() => setIsModalOpen(false)} />}
+    </div>
+  );
+}

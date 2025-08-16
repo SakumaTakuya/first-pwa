@@ -1,0 +1,6 @@
+- Next.js 15.4.6
+- React 19.1.0
+- TypeScript
+- `next-pwa` for Progressive Web App capabilities
+- Tailwind CSS for styling
+- ESLint for linting
