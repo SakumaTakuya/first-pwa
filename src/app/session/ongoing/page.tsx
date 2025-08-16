@@ -5,6 +5,7 @@ import { useSessionStore } from '@/stores/session-store';
 import { ExerciseCard } from '@/components/exercise-card';
 import { AddExerciseModal } from '@/components/add-exercise-modal';
 import { useRouter } from 'next/navigation';
+import { db } from '@/lib/db';
 
 export default function OngoingSessionPage() {
   const { exercises: exercisesFromStore, clearSession, isActive } = useSessionStore();
@@ -31,8 +32,20 @@ export default function OngoingSessionPage() {
     }
   }, [hasHydrated, isActive, router]);
 
-  const handleEndSession = () => {
-    if (window.confirm('本当にトレーニングを終了しますか？')) {
+  const handleEndSession = async () => {
+    if (exercises.length > 0 && window.confirm('記録を保存してトレーニングを終了しますか？')) {
+      try {
+        await db.completedWorkouts.add({
+          date: new Date(),
+          exercises: exercises,
+        });
+        clearSession();
+        router.push('/');
+      } catch (error) {
+        console.error('Failed to save workout', error);
+        alert('記録の保存に失敗しました。');
+      }
+    } else if (window.confirm('現在のトレーニングを破棄しますか？')) {
       clearSession();
       router.push('/');
     }
