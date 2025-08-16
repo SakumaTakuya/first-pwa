@@ -17,7 +17,7 @@ export const metadata: Metadata = {
   applicationName: "first-pwa",
   title: "first-pwa",
   description: "This is a first pwa app.",
-  manifest: "/manifest.json",
+  
   appleWebApp: {
     capable: true,
     statusBarStyle: "default",
