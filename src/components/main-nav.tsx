@@ -13,7 +13,7 @@ export const MainNav = () => {
   const pathname = usePathname();
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 bg-surface border-t border-border h-16 z-40">
+    <nav className="fixed bottom-0 left-0 right-0 bg-surface border-t border-border h-16 z-30">
       <div className="flex justify-around items-center h-full max-w-md mx-auto">
         {navItems.map(({ href, label, icon: Icon }) => {
           const isActive = pathname === href;

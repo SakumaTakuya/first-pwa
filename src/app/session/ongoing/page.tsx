@@ -91,7 +91,7 @@ export default function OngoingSessionPage() {
       >
         <button
           onClick={() => setIsModalOpen(true)}
-          className="bg-accent text-white rounded-full w-16 h-16 flex items-center justify-center shadow-lg text-3xl font-bold"
+          className="bg-accent text-white rounded-full w-16 h-16 flex items-center justify-center shadow-lg text-3xl font-bold z-40"
         >
           <Plus size={32} />
         </button>
