@@ -7,7 +7,7 @@ import { AddExerciseModal } from '@/components/add-exercise-modal';
 import { useRouter } from 'next/navigation';
 import { db } from '@/lib/db';
 import { Plus } from 'lucide-react';
-import { useVirtualKeyboardHeight } from '@/hooks/use-virtual-keyboard-height';
+import { useVirtualKeyboard } from '@/hooks/use-virtual-keyboard';
 
 export default function OngoingSessionPage() {
   const { exercises: exercisesFromStore, clearSession, isActive } = useSessionStore();
@@ -15,7 +15,7 @@ export default function OngoingSessionPage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const router = useRouter();
   const [hasHydrated, setHasHydrated] = useState(false);
-  const keyboardHeight = useVirtualKeyboardHeight();
+  const { keyboardHeight, isKeyboardVisible } = useVirtualKeyboard();
 
   useEffect(() => {
     setHasHydrated(useSessionStore.persist.hasHydrated());
@@ -81,9 +81,13 @@ export default function OngoingSessionPage() {
       </main>
 
       {/* Floating Action Button */}
-      <div 
-        className="fixed right-6 transition-all duration-300 ease-in-out"
-        style={{ bottom: `calc(5rem + ${keyboardHeight}px)` }}
+      <div
+        className="fixed bottom-20 right-6 transition-all duration-300 ease-in-out"
+        style={{
+          bottom: isKeyboardVisible
+            ? `calc(1.5rem + ${keyboardHeight}px)`
+            : undefined,
+        }}
       >
         <button
           onClick={() => setIsModalOpen(true)}

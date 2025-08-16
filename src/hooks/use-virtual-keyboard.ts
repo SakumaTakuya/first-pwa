@@ -2,8 +2,9 @@
 
 import { useState, useEffect } from 'react';
 
-export const useVirtualKeyboardHeight = () => {
+export const useVirtualKeyboard = () => {
   const [keyboardHeight, setKeyboardHeight] = useState(0);
+  const [isKeyboardVisible, setIsKeyboardVisible] = useState(false);
 
   useEffect(() => {
     if (typeof window === 'undefined' || !window.visualViewport) {
@@ -12,12 +13,15 @@ export const useVirtualKeyboardHeight = () => {
 
     const handleResize = () => {
       const viewportHeight = window.innerHeight;
-      const visualViewportHeight = window.visualViewport?.height || viewportHeight;
+      const visualViewportHeight =
+        window.visualViewport?.height || viewportHeight;
       const heightDiff = viewportHeight - visualViewportHeight;
+      const isVisible = heightDiff > 100;
 
       // A positive difference usually means the keyboard is up.
       // We use a threshold to avoid minor fluctuations.
-      setKeyboardHeight(heightDiff > 100 ? heightDiff : 0);
+      setKeyboardHeight(isVisible ? heightDiff : 0);
+      setIsKeyboardVisible(isVisible);
     };
 
     window.visualViewport.addEventListener('resize', handleResize);
@@ -32,5 +36,5 @@ export const useVirtualKeyboardHeight = () => {
     };
   }, []);
 
-  return keyboardHeight;
+  return { keyboardHeight, isKeyboardVisible };
 };
