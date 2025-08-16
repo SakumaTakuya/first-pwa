@@ -1,69 +1,49 @@
 # 機能仕様: 要求1 - 迅速な記録開始
 
-## 1. 概要
-本仕様書は、要求仕様書に記載された「要求1：迅速な記録開始」を満たすための技術的な実装計画を定義する。
+(省略)
 
 ---
 
 # 機能仕様: 要求2 - 簡単な種目追加 (修正版)
 
-## 1. 概要
-本仕様は、ユーザーからの「可能な限り1画面で操作を完結させたい」というフィードバックを反映した修正版の実装計画である。
-画面遷移を最小限に抑え、単一の画面上で種目の追加からセットの記録までをシームレスに行えるUI/UXを実現する。
+(省略)
 
 ---
 
 # 機能仕様: 要求3 - 完了した記録の永続化
 
+(省略)
+
+---
+
+# 機能仕様: 要求5 - トレーニング履歴の確認
+
 ## 1. 概要
-トレーニング完了時に、そのセッションの記録を永続的に保存する機能を実装する。これにより、ユーザーは過去のトレーニング履歴を後から参照できるようになる。
+過去のトレーニング記録を可視化し、ユーザーが自身の成長を確認できる機能を実装する。この機能は、カレンダーによる日付選択、選択した日の詳細な記録表示、そして種目ごとの成長グラフという3つの主要な要素で構成される。
 
 ## 2. 技術選定
-- **データベース**: ブラウザ内で大容量の構造化データを扱え、高速なクエリが可能な **IndexedDB** を採用する。
-- **ライブラリ**: IndexedDBの複雑なAPIを簡易に扱うため、ラッパーライブラリである **`Dexie.js`** を利用する。
+- **カレンダーライブラリ**: `react-day-picker`
+- **グラフライブラリ**: `recharts`
 
 ## 3. 実装詳細
 
-### Step 1: `Dexie.js`の導入
-- `npm install dexie` を実行し、ライブラリをプロジェクトに追加する。
+### Step 1: 依存ライブラリのインストール
+- `npm install recharts react-day-picker date-fns` を実行する。
 
-### Step 2: データベースの定義ファイル作成
-- **ファイルパス**: `src/lib/db.ts`
-- **データベース名**: 他のアプリケーションとの衝突を避けるため、リバースドメイン形式（例: `com.sakumatakuya.first-pwa.db`）で命名する。
-- **テーブル設計**:
-  - `completedWorkouts` テーブルを定義する。
-  - `++id`: `auto-increment`される主キー。
-  - `date`: トレーニング日。検索パフォーマンス向上のためインデックスを設定する。
-  - `exercises`: その日のトレーニング内容（オブジェクトの配列）。
+### Step 2: 履歴ページの作成 (`/history`)
+- `src/app/history/page.tsx` をクライアントコンポーネントとして作成する。
+- `Dexie`の`useLiveQuery`フックを使い、IndexedDBから全ワークアウト記録を取得する。
 
-```typescript
-// src/lib/db.ts (イメージ)
-import Dexie, { type Table } from 'dexie';
-import type { SessionExercise } from '@/stores/session-store';
+### Step 3: カレンダービューの実装 (受け入れ基準 5.1)
+- `react-day-picker`を使い、ワークアウト実施日をハイライト表示する。
+- 日付クリックで、その日の記録を表示するトリガーとする。
 
-export interface CompletedWorkout {
-  id?: number;
-  date: Date;
-  exercises: SessionExercise[];
-}
+### Step 4: 日次記録詳細ビューの実装 (受け入れ基準 5.2)
+- `history`ページ内に、選択された日付の記録（種目、セット）を一覧表示するコンポーネントを配置する。
 
-export class MySubClassedDexie extends Dexie {
-  completedWorkouts!: Table<CompletedWorkout>; 
+### Step 5: 成長記録グラフビューの実装 (受け入れ基準 5.3)
+- 日次記録内の種目名をクリックすると、モーダルウィンドウが開く。
+- モーダル内で、`recharts`を使い、その種目の「日付 vs 最大挙上重量」の折れ線グラフを表示する。
 
-  constructor() {
-    super('com.sakumatakuya.first-pwa.db');
-    this.version(1).stores({
-      completedWorkouts: '++id, date', // Primary key and indexed props
-    });
-  }
-}
-
-export const db = new MySubClassedDexie();
-```
-
-### Step 3: 「トレーニング終了」処理のロジック変更
-- **対象ファイル**: `src/app/session/ongoing/page.tsx` の `handleEndSession` 関数。
-- **変更フロー**:
-  1. `handleEndSession` が呼ばれたら、まず `session-store` から現在の `exercises` データを取得する。
-  2. `db.completedWorkouts.add()` を使用し、取得したデータに `date` を加えてIndexedDBに保存する。
-  3. IndexedDBへの保存が成功したら、`session-store` の `clearSession()` を呼び出して現在のセッション情報をクリアし、ホームページへリダイレクトする。
+### Step 6: ナビゲーションの追加
+- ユーザーが「トレーニング中」画面と「履歴」画面を行き来できるよう、共通のナビゲーションコンポーネントを`layout.tsx`に追加する。
