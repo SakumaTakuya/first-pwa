@@ -5,7 +5,7 @@ import { usePathname } from 'next/navigation';
 import { Home, History } from 'lucide-react'; // Using lucide-react as per GEMINI.md
 
 const navItems = [
-  { href: '/', label: 'Home', icon: Home },
+  { href: '/session/ongoing', label: 'Home', icon: Home },
   { href: '/history', label: 'History', icon: History },
 ];
 
@@ -13,8 +13,8 @@ export const MainNav = () => {
   const pathname = usePathname();
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 bg-surface border-t border-border h-16 z-30">
-      <div className="flex justify-around items-center h-full max-w-md mx-auto">
+    <nav className="bg-surface border-t border-border p-4 z-30">
+      <div className="flex justify-around items-center max-w-md mx-auto">
         {navItems.map(({ href, label, icon: Icon }) => {
           const isActive = pathname === href;
           return (

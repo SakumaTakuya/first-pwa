@@ -82,7 +82,7 @@ export default function OngoingSessionPage() {
 
       {/* Floating Action Button */}
       <div
-        className="fixed bottom-20 right-6 transition-all duration-300 ease-in-out"
+        className="sticky bottom-6 flex flex-row-reverse"
         style={{
           bottom: isKeyboardVisible
             ? `calc(1.5rem + ${keyboardHeight}px)`

@@ -17,7 +17,8 @@ export const metadata: Metadata = {
   applicationName: "first-pwa",
   title: "first-pwa",
   description: "This is a first pwa app.",
-  
+  viewport: "width=device-width, initial-scale=1, viewport-fit=cover",
+
   appleWebApp: {
     capable: true,
     statusBarStyle: "default",
@@ -40,9 +41,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased flex flex-col h-screen`}
       >
-        <main className="pb-16">{children}</main>
+        <main className="overflow-y-auto" style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}>{children}</main>
         <MainNav />
       </body>
     </html>
