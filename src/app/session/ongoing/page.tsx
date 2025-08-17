@@ -70,7 +70,7 @@ export default function OngoingSessionPage() {
         </button>
       </header>
 
-      <main className="space-y-4 pb-24"> {/* Add padding to bottom */}
+      <article className="space-y-4 pb-24"> {/* Add padding to bottom */}
         {exercises.length === 0 ? (
           <div className="text-center py-16">
             <p className="text-text-sub">まだ種目が追加されていません。</p>
@@ -78,7 +78,7 @@ export default function OngoingSessionPage() {
         ) : (
           exercises.map((ex) => <ExerciseCard key={ex.id} sessionExercise={ex} />)
         )}
-      </main>
+      </article>
 
       {/* Floating Action Button */}
       <div

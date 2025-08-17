@@ -123,7 +123,7 @@ export const ExerciseCard = ({ sessionExercise }: ExerciseCardProps) => {
   };
 
   return (
-    <div className="bg-surface rounded-xl shadow-md p-4 w-full">
+    <section className="bg-surface rounded-xl shadow-md p-4 w-full">
       <div className="flex gap-2 items-center mb-2">
         <button onClick={handleDelete} className="p-1 text-destructive hover:opacity-75">
           <Trash2 size={16} />
@@ -168,6 +168,6 @@ export const ExerciseCard = ({ sessionExercise }: ExerciseCardProps) => {
           <button type="submit" className="p-1 text-green-400 hover:text-green-300"><Check size={20} /></button>
         </div>
       </form>
-    </div>
+    </section>
   );
 };
