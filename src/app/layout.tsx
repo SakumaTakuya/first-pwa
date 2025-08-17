@@ -43,7 +43,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased flex flex-col h-screen`}
       >
-        <main className="overflow-y-auto">{children}</main>
+        <main className="overflow-y-auto flex-grow">{children}</main>
         <MainNav />
       </body>
     </html>

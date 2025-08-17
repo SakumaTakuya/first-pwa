@@ -59,8 +59,8 @@ export default function OngoingSessionPage() {
   }
 
   return (
-    <div className="min-h-screen bg-background text-text-main p-4 sm:p-6">
-      <header className="flex justify-between items-center mb-6">
+    <div className="flex flex-col h-full bg-background text-text-main p-4 sm:p-6">
+      <header className="sticky top-0 flex justify-between items-center mb-6">
         <h1 className="text-2xl font-bold">トレーニング中</h1>
         <button
           onClick={handleEndSession}
@@ -70,7 +70,7 @@ export default function OngoingSessionPage() {
         </button>
       </header>
 
-      <article className="space-y-4 pb-24"> {/* Add padding to bottom */}
+      <article className="space-y-4 flex-grow"> {/* Add padding to bottom */}
         {exercises.length === 0 ? (
           <div className="text-center py-16">
             <p className="text-text-sub">まだ種目が追加されていません。</p>
