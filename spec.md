@@ -124,3 +124,54 @@ UI/UX向上のため、アプリケーションの全体的なレイアウトと
 - **目的**: フローティングアクションボタン（FAB）のスクロール挙動を改善する。
 - **変更点**:
   - FABのCSSプロパティを`position: fixed`から`position: sticky`に変更した。これにより、ボタンはコンテンツの末尾に配置され、スクロールして画面下部に到達すると、そこに「くっつく（stick）」ように留まる挙動になる。
+
+---
+
+# 機能仕様: セーフエリア対応（ボトムナビゲーション）
+
+## 1. 課題
+現在のレイアウトでは、ボトムナビゲーションバー（`MainNav`）が画面の最下部に配置されるため、iPhoneのようなホームインジケーターがあるデバイスでは、操作エリアが隠れてしまい、UI/UXを損なう可能性がある。
+
+## 2. 解決方針
+`padding`とCSSの`env(safe-area-inset-bottom)`変数を組み合わせ、ナビゲーションバーの背景は画面最下部まで伸ばしつつ、インタラクティブな要素（アイコンなど）は安全な領域に配置されるように修正する。
+
+## 3. 実装詳細
+
+### Step 1: `main-nav.tsx` のリファクタリング
+ナビゲーションバーのコンポーネント構造を調整し、セーフエリア対応のパディングと、コンテンツ用のパディングを分離する。
+
+- **変更前:**
+  ```jsx
+  <nav className="bg-surface border-t border-border p-4 z-30">
+    <div className="flex justify-around items-center max-w-md mx-auto">
+      {/* ... */}
+    </div>
+  </nav>
+  ```
+
+- **変更後:**
+  - 親の`<nav>`から`p-4`を削除し、`style`属性で`padding-bottom`にセーフエリア変数を設定する。
+  - 子の`<div>`に`p-4`を移動する。
+  ```jsx
+  <nav
+    className="bg-surface border-t border-border z-30"
+    style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}
+  >
+    <div className="flex justify-around items-center max-w-md mx-auto p-4">
+      {/* ... */}
+    </div>
+  </nav>
+  ```
+
+### Step 2: `layout.tsx` のクリーンアップ
+`MainNav`側でセーフエリア対応を行うため、`<main>`要素に設定されていた冗長な`padding-bottom`を削除する。
+
+- **対象ファイル:** `src/app/layout.tsx`
+- **変更内容:** `<main>`要素の`style`属性を削除する。
+```jsx
+// 変更前
+<main className="overflow-y-auto" style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}>{children}</main>
+
+// 変更後
+<main className="overflow-y-auto">{children}</main>
+```

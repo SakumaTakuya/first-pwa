@@ -13,8 +13,11 @@ export const MainNav = () => {
   const pathname = usePathname();
 
   return (
-    <nav className="bg-surface border-t border-border p-4 z-30">
-      <div className="flex justify-around items-center max-w-md mx-auto">
+    <nav 
+      className="bg-surface border-t border-border z-30"
+      style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}
+    >
+      <div className="flex justify-around items-center max-w-md mx-auto p-4">
         {navItems.map(({ href, label, icon: Icon }) => {
           const isActive = pathname === href;
           return (
