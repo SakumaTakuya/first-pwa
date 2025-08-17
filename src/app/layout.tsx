@@ -41,9 +41,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased flex flex-col h-screen`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased flex flex-col h-screen overflow-hidden`}
       >
-        <main className="overflow-y-auto flex-grow">{children}</main>
+        <main className="overflow-y-auto flex-grow" style={{
+          WebkitOverflowScrolling: "touch"
+        }}>
+          {children}
+        </main>
         <MainNav />
       </body>
     </html>
