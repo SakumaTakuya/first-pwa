@@ -3,7 +3,7 @@
 import { useState, useRef, type KeyboardEvent } from 'react';
 import type { SessionExercise, Set } from '@/stores/session-store';
 import { useSessionStore } from '@/stores/session-store';
-import { Pencil, Check, X } from 'lucide-react';
+import { Pencil, Check, X, Trash2 } from 'lucide-react';
 
 // Props for the SetRow component
 interface SetRowProps {
@@ -89,13 +89,19 @@ interface ExerciseCardProps {
 }
 
 export const ExerciseCard = ({ sessionExercise }: ExerciseCardProps) => {
-  const { addSetToExercise } = useSessionStore();
+  const { addSetToExercise, removeExerciseFromSession } = useSessionStore();
   const [newWeight, setNewWeight] = useState('');
   const [newReps, setNewReps] = useState('');
   const [editingSetId, setEditingSetId] = useState<string | null>(null);
 
   const weightInputRef = useRef<HTMLInputElement>(null);
   const repsInputRef = useRef<HTMLInputElement>(null);
+
+  const handleDelete = () => {
+    if (window.confirm(`「${sessionExercise.exerciseName}」を削除しますか？\n記録されたセットもすべて削除されます。`)) {
+      removeExerciseFromSession(sessionExercise.id);
+    }
+  };
 
   const handleAddSet = (e: React.FormEvent) => {
     e.preventDefault();
@@ -118,7 +124,12 @@ export const ExerciseCard = ({ sessionExercise }: ExerciseCardProps) => {
 
   return (
     <div className="bg-surface rounded-xl shadow-md p-4 w-full">
-      <h3 className="text-xl font-bold text-text-main mb-4">{sessionExercise.exerciseName}</h3>
+      <div className="flex gap-2 items-center mb-2">
+        <button onClick={handleDelete} className="p-1 text-destructive hover:opacity-75">
+          <Trash2 size={16} />
+        </button>
+        <h3 className="text-xl font-bold text-text-main">{sessionExercise.exerciseName}</h3>
+      </div>
 
       <ul className="space-y-2 mb-4">
         {sessionExercise.sets.map((set) => (
