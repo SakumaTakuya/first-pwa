@@ -1,9 +1,11 @@
 'use client';
 
-import { useState, useRef, type KeyboardEvent } from 'react';
+import { useEffect, useState, useRef, type KeyboardEvent } from 'react';
+import { Pencil, Check, X, Trash2 } from 'lucide-react';
+
+import { db } from '@/lib/db';
 import type { SessionExercise, Set } from '@/stores/session-store';
 import { useSessionStore } from '@/stores/session-store';
-import { Pencil, Check, X, Trash2 } from 'lucide-react';
 
 // Props for the SetRow component
 interface SetRowProps {
@@ -96,6 +98,34 @@ export const ExerciseCard = ({ sessionExercise }: ExerciseCardProps) => {
 
   const weightInputRef = useRef<HTMLInputElement>(null);
   const repsInputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    const fetchLastRecord = async () => {
+      try {
+        const lastWorkout = await db.completedWorkouts
+          .orderBy('date')
+          .reverse()
+          .filter(workout => workout.exercises.some(ex => ex.exerciseId === sessionExercise.exerciseId))
+          .first();
+
+        if (lastWorkout) {
+          const lastExercise = lastWorkout.exercises.find(ex => ex.exerciseId === sessionExercise.exerciseId);
+          if (lastExercise && lastExercise.sets.length > 0) {
+            const lastSet = lastExercise.sets[lastExercise.sets.length - 1];
+            setNewWeight(lastSet.weight.toString());
+            setNewReps(lastSet.reps.toString());
+          }
+        }
+      } catch (error) {
+        console.error("Failed to fetch last workout record:", error);
+      }
+    };
+
+    // Only fetch if there are no sets yet for this exercise in the current session.
+    if (sessionExercise.sets.length === 0) {
+      fetchLastRecord();
+    }
+  }, [sessionExercise.exerciseId, sessionExercise.sets.length]);
 
   const handleDelete = () => {
     if (window.confirm(`「${sessionExercise.exerciseName}」を削除しますか？\n記録されたセットもすべて削除されます。`)) {
