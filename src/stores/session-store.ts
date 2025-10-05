@@ -22,6 +22,7 @@ interface SessionState {
   addSetToExercise: (sessionExerciseId: string, set: Omit<Set, 'id'>) => void;
   updateSet: (sessionExerciseId: string, setId: string, newWeight: number, newReps: number) => void;
   removeExerciseFromSession: (sessionExerciseId: string) => void;
+  removeSetFromExercise: (sessionExerciseId: string, setId: string) => void;
   clearSession: () => void;
 }
 
@@ -68,6 +69,15 @@ export const useSessionStore = create<SessionState>()(
       removeExerciseFromSession: (sessionExerciseId) => {
         set((state) => ({
           exercises: state.exercises.filter((ex) => ex.id !== sessionExerciseId),
+        }));
+      },
+      removeSetFromExercise: (sessionExerciseId, setId) => {
+        set((state) => ({
+          exercises: state.exercises.map((ex) =>
+            ex.id === sessionExerciseId
+              ? { ...ex, sets: ex.sets.filter((set) => set.id !== setId) }
+              : ex
+          ),
         }));
       },
       clearSession: () => set({ isActive: false, exercises: [] }),
