@@ -13,8 +13,8 @@ export const MainNav = () => {
   const pathname = usePathname();
 
   return (
-    <nav 
-      className="bg-surface border-t border-border z-30"
+    <nav
+      className="bg-surface border-t border-border z-30 fixed bottom-0 left-0 right-0"
       style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}
     >
       <div className="flex justify-around items-center max-w-md mx-auto p-4">

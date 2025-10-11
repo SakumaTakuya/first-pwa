@@ -55,13 +55,13 @@ export const useSessionStore = create<SessionState>()(
           exercises: state.exercises.map((ex) =>
             ex.id === sessionExerciseId
               ? {
-                  ...ex,
-                  sets: ex.sets.map((set) =>
-                    set.id === setId
-                      ? { ...set, weight: newWeight, reps: newReps }
-                      : set
-                  ),
-                }
+                ...ex,
+                sets: ex.sets.map((set) =>
+                  set.id === setId
+                    ? { ...set, weight: newWeight, reps: newReps }
+                    : set
+                ),
+              }
               : ex
           ),
         }));
