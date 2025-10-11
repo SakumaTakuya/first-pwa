@@ -80,20 +80,18 @@ export default function OngoingSessionPage() {
           )}
         </main>
 
-        {/* Floating Action Button */}
-        <div
-          className="fixed bottom-20 bottom-20 right-6 transition-all duration-300 ease-in-out">
-          <button
-            onClick={() => setIsModalOpen(true)}
-            className="bg-accent text-white rounded-full w-16 h-16 flex items-center justify-center shadow-lg text-3xl font-bold z-40"
-          >
-            <Plus size={32} />
-          </button>
-        </div>
-
         {isModalOpen && <AddExerciseModal onClose={() => setIsModalOpen(false)} />}
       </div>
-      <MainNav />
+      <MainNav
+        actionButton={
+          <button
+            onClick={() => setIsModalOpen(true)}
+            className="bg-accent text-white rounded-full w-14 h-14 flex items-center justify-center shadow-lg"
+          >
+            <Plus size={28} />
+          </button>
+        }
+      />
     </>
   );
 }
