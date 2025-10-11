@@ -7,7 +7,7 @@ import { AddExerciseModal } from '@/components/add-exercise-modal';
 import { useRouter } from 'next/navigation';
 import { db } from '@/lib/db';
 import { Plus } from 'lucide-react';
-import { MainNav } from '@/components/main-nav';
+import { useMainNavStore } from '@/stores/ui-store';
 
 export default function OngoingSessionPage() {
   const { exercises: exercisesFromStore, clearSession, isActive } = useSessionStore();
@@ -15,6 +15,24 @@ export default function OngoingSessionPage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const router = useRouter();
   const [hasHydrated, setHasHydrated] = useState(false);
+  const { setNavConfig, resetNavConfig } = useMainNavStore();
+
+  useEffect(() => {
+    setNavConfig({
+      actionButton: (
+        <button
+          onClick={() => setIsModalOpen(true)}
+          className="bg-accent text-white rounded-full w-14 h-14 flex items-center justify-center shadow-lg"
+        >
+          <Plus size={28} />
+        </button>
+      ),
+    });
+
+    return () => {
+      resetNavConfig();
+    };
+  }, [setNavConfig, resetNavConfig, setIsModalOpen]);
 
   useEffect(() => {
     setHasHydrated(useSessionStore.persist.hasHydrated());
@@ -82,16 +100,6 @@ export default function OngoingSessionPage() {
 
         {isModalOpen && <AddExerciseModal onClose={() => setIsModalOpen(false)} />}
       </div>
-      <MainNav
-        actionButton={
-          <button
-            onClick={() => setIsModalOpen(true)}
-            className="bg-accent text-white rounded-full w-14 h-14 flex items-center justify-center shadow-lg"
-          >
-            <Plus size={28} />
-          </button>
-        }
-      />
     </>
   );
 }

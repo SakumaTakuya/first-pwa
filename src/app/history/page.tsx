@@ -7,7 +7,6 @@ import { DayPicker } from 'react-day-picker';
 import 'react-day-picker/dist/style.css';
 import { ja } from 'date-fns/locale';
 import { ProgressGraphModal } from '@/components/progress-graph-modal';
-import { MainNav } from '@/components/main-nav';
 
 export default function HistoryPage() {
   const allWorkouts = useLiveQuery(() => db.completedWorkouts.orderBy('date').toArray(), []);
@@ -78,8 +77,6 @@ export default function HistoryPage() {
           onClose={() => setSelectedExercise(null)}
         />
       )}
-
-      <MainNav />
     </>
   );
 }

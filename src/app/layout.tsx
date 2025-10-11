@@ -46,7 +46,7 @@ export default function RootLayout({
         <div className="min-h-dvh pb-32">
           {children}
         </div>
-        {/* <MainNav /> */}
+        <MainNav />
       </body>
     </html>
   );
