@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Home, History } from 'lucide-react';
+import { Home, History, Plus } from 'lucide-react';
 import { useMainNavStore } from '@/stores/ui-store';
 
 const navItems = [
@@ -16,10 +16,10 @@ export const MainNav: React.FC = () => {
 
   return (
     <nav
-      className="z-30 fixed bottom-0 left-0 right-0 flex flex-rows gap-x-4 justify-around items-center"
+      className="z-30 fixed bottom-0 left-0 right-0 flex flex-rows gap-x-4 justify-center items-center"
       style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}
     >
-      <div className="bg-surface/80 backdrop-blur-lg flex items-center max-w-md h-20 border rounded-full flex-grow transition duration-300 ease-in-out">
+      <div className="bg-surface/80 backdrop-blur-lg flex items-center max-w-md h-20 border rounded-full flex-grow transition-all duration-300 ease-in-out">
         <div className="flex gap-x-10 justify-around grow-1">
           {navItems.map(({ href, label, icon: Icon }) => {
             const isActive = pathname === href;
@@ -36,11 +36,18 @@ export const MainNav: React.FC = () => {
         </div>
       </div>
 
-      {navConfig.actionButton && (
-        <div className="ml-auto">
-          {navConfig.actionButton}
-        </div>
-      )}
+      <div
+        className={`transition-all duration-300 ease-in-out overflow-hidden ${navConfig.actionButton ? 'max-w-[6rem] ml-auto' : 'max-w-0 ml-0'
+          }`}
+      >
+        <button
+          onClick={navConfig.actionButton?.onClick}
+          disabled={!navConfig.actionButton}
+          className="bg-accent text-white rounded-full w-14 h-14 flex items-center justify-center shadow-lg"
+        >
+          <Plus size={28} />
+        </button>
+      </div>
     </nav>
   );
 };

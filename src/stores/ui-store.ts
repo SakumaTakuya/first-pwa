@@ -1,8 +1,10 @@
 import { create } from 'zustand';
-import React from 'react';
+interface ActionButtonConfig {
+  onClick: () => void;
+}
 
 interface NavConfig {
-  actionButton: React.ReactNode | null;
+  actionButton: ActionButtonConfig | null;
 }
 
 interface MainNavState {

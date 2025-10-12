@@ -19,14 +19,9 @@ export default function OngoingSessionPage() {
 
   useEffect(() => {
     setNavConfig({
-      actionButton: (
-        <button
-          onClick={() => setIsModalOpen(true)}
-          className="bg-accent text-white rounded-full w-14 h-14 flex items-center justify-center shadow-lg"
-        >
-          <Plus size={28} />
-        </button>
-      ),
+      actionButton: {
+        onClick: () => setIsModalOpen(true),
+      },
     });
 
     return () => {
