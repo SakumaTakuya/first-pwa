@@ -11,11 +11,11 @@ import { ProgressGraphModal } from '@/components/progress-graph-modal';
 export default function HistoryPage() {
   const allWorkouts = useLiveQuery(() => db.completedWorkouts.orderBy('date').toArray(), []);
   const [selectedDate, setSelectedDate] = useState<Date | undefined>();
-  const [selectedExercise, setSelectedExercise] = useState<{id: string, name: string} | null>(null);
+  const [selectedExercise, setSelectedExercise] = useState<{ id: string, name: string } | null>(null);
 
   const workoutDates = allWorkouts?.map(w => w.date) || [];
 
-  const selectedWorkout = allWorkouts?.find(w => 
+  const selectedWorkout = allWorkouts?.find(w =>
     selectedDate && w.date.toDateString() === selectedDate.toDateString()
   );
 
@@ -45,7 +45,7 @@ export default function HistoryPage() {
                 <h3 className="font-bold">{selectedDate?.toLocaleDateString('ja-JP')}</h3>
                 {selectedWorkout.exercises.map(ex => (
                   <div key={ex.id}>
-                    <button 
+                    <button
                       onClick={() => setSelectedExercise({ id: ex.exerciseId, name: ex.exerciseName })}
                       className="font-bold text-text-main hover:text-accent transition-colors w-full text-left"
                     >
@@ -70,7 +70,7 @@ export default function HistoryPage() {
         </div>
       </div>
       {selectedExercise && allWorkouts && (
-        <ProgressGraphModal 
+        <ProgressGraphModal
           workouts={allWorkouts}
           exerciseId={selectedExercise.id}
           exerciseName={selectedExercise.name}

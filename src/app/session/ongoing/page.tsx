@@ -7,6 +7,7 @@ import { AddExerciseModal } from '@/components/add-exercise-modal';
 import { useRouter } from 'next/navigation';
 import { db } from '@/lib/db';
 import { Plus } from 'lucide-react';
+import { useMainNavStore } from '@/stores/ui-store';
 
 export default function OngoingSessionPage() {
   const { exercises: exercisesFromStore, clearSession, isActive } = useSessionStore();
@@ -14,6 +15,19 @@ export default function OngoingSessionPage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const router = useRouter();
   const [hasHydrated, setHasHydrated] = useState(false);
+  const { setNavConfig, resetNavConfig } = useMainNavStore();
+
+  useEffect(() => {
+    setNavConfig({
+      actionButton: {
+        onClick: () => setIsModalOpen(true),
+      },
+    });
+
+    return () => {
+      resetNavConfig();
+    };
+  }, [setNavConfig, resetNavConfig, setIsModalOpen]);
 
   useEffect(() => {
     setHasHydrated(useSessionStore.persist.hasHydrated());
@@ -57,39 +71,30 @@ export default function OngoingSessionPage() {
   }
 
   return (
-    <div className="flex flex-col h-full bg-background text-text-main p-4 sm:p-6">
-      <header className="sticky top-0 flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-bold">トレーニング中</h1>
-        <button
-          onClick={handleEndSession}
-          className="bg-destructive text-white font-bold rounded-lg px-4 py-2 text-sm"
-        >
-          終了
-        </button>
-      </header>
+    <>
+      <div className="flex flex-col h-full bg-background text-text-main p-4 sm:p-6">
+        <header className="sticky top-0 flex justify-between items-center mb-6">
+          <h1 className="text-2xl font-bold">トレーニング中</h1>
+          <button
+            onClick={handleEndSession}
+            className="bg-destructive text-white font-bold rounded-lg px-4 py-2 text-sm"
+          >
+            終了
+          </button>
+        </header>
 
-      <article className="space-y-4 flex-grow"> {/* Add padding to bottom */}
-        {exercises.length === 0 ? (
-          <div className="text-center py-16">
-            <p className="text-text-sub">まだ種目が追加されていません。</p>
-          </div>
-        ) : (
-          exercises.map((ex) => <ExerciseCard key={ex.id} sessionExercise={ex} />)
-        )}
-      </article>
+        <main className="space-y-4 flex-grow"> {/* Add padding to bottom */}
+          {exercises.length === 0 ? (
+            <div className="text-center py-16">
+              <p className="text-text-sub">まだ種目が追加されていません。</p>
+            </div>
+          ) : (
+            exercises.map((ex) => <ExerciseCard key={ex.id} sessionExercise={ex} />)
+          )}
+        </main>
 
-      {/* Floating Action Button */}
-      <div
-        className="sticky bottom-6 flex flex-row-reverse">
-        <button
-          onClick={() => setIsModalOpen(true)}
-          className="bg-accent text-white rounded-full w-16 h-16 flex items-center justify-center shadow-lg text-3xl font-bold z-40"
-        >
-          <Plus size={32} />
-        </button>
+        {isModalOpen && <AddExerciseModal onClose={() => setIsModalOpen(false)} />}
       </div>
-
-      {isModalOpen && <AddExerciseModal onClose={() => setIsModalOpen(false)} />}
-    </div>
+    </>
   );
 }

@@ -18,7 +18,7 @@ interface SetRowProps {
 
 // A single row in the logged sets list, handling its own edit state.
 const SetRow = ({ set, sessionExerciseId, isEditing, onStartEdit, onCancelEdit }: SetRowProps) => {
-  const { updateSet } = useSessionStore();
+  const { updateSet, removeSetFromExercise } = useSessionStore();
   const [weight, setWeight] = useState(set.weight.toString());
   const [reps, setReps] = useState(set.reps.toString());
 
@@ -32,6 +32,13 @@ const SetRow = ({ set, sessionExerciseId, isEditing, onStartEdit, onCancelEdit }
       updateSet(sessionExerciseId, set.id, weightNum, repsNum);
     }
     onCancelEdit(); // Exit editing mode
+  };
+
+  const handleDelete = () => {
+    if (window.confirm('このセットを削除しますか？')) {
+      removeSetFromExercise(sessionExerciseId, set.id);
+      onCancelEdit(); // Exit editing mode as the set is gone
+    }
   };
 
   const handleEditWeightKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
@@ -65,7 +72,8 @@ const SetRow = ({ set, sessionExerciseId, isEditing, onStartEdit, onCancelEdit }
           />
           <span className="text-text-sub">reps</span>
           <button type="submit" className="p-1 text-green-400 hover:text-green-300"><Check size={20} /></button>
-          <button type="button" onClick={onCancelEdit} className="p-1 text-red-400 hover:text-red-300"><X size={20} /></button>
+          <button type="button" onClick={onCancelEdit} className="p-1 text-gray-400 hover:text-gray-300"><X size={20} /></button>
+          <button type="button" onClick={handleDelete} className="p-1 text-destructive hover:opacity-75"><Trash2 size={20} /></button>
         </form>
       </li>
     );
