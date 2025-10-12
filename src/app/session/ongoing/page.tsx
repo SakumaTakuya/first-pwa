@@ -10,7 +10,7 @@ import { Plus } from 'lucide-react';
 import { useMainNavStore } from '@/stores/ui-store';
 
 export default function OngoingSessionPage() {
-  const { exercises: exercisesFromStore, clearSession, isActive } = useSessionStore();
+  const { exercises: exercisesFromStore, clearSession, isActive, startDate } = useSessionStore();
   const exercises = exercisesFromStore || [];
   const [isModalOpen, setIsModalOpen] = useState(false);
   const router = useRouter();
@@ -51,7 +51,7 @@ export default function OngoingSessionPage() {
     if (exercises.length > 0 && window.confirm('記録を保存してトレーニングを終了しますか？')) {
       try {
         await db.completedWorkouts.add({
-          date: new Date(),
+          date: startDate || new Date(),
           exercises: exercises,
         });
         clearSession();
