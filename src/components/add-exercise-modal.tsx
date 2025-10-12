@@ -39,7 +39,7 @@ export const AddExerciseModal = ({ onClose }: AddExerciseModalProps) => {
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50">
-      <div className="bg-surface rounded-xl shadow-lg w-full max-w-md max-h-[80vh] flex flex-col">
+      <div className="bg-surface rounded-xl shadow-lg w-full max-w-md h-[80vh] flex flex-col">
         <div className="p-4 border-b border-border">
           <input
             type="text"
@@ -71,7 +71,7 @@ export const AddExerciseModal = ({ onClose }: AddExerciseModalProps) => {
 
           {/* Filtered List */}
           <h3 className="text-lg font-bold text-text-sub mb-2">種目一覧</h3>
-          {filteredList.length > 0 ? (
+          {filteredList.length > 0 && (
             <ul className="space-y-2">
               {filteredList.map((ex) => (
                 <li key={ex.id}>
@@ -84,9 +84,16 @@ export const AddExerciseModal = ({ onClose }: AddExerciseModalProps) => {
                 </li>
               ))}
             </ul>
-          ) : (
+          )}
+
+          {filteredList.length === 0 && searchQuery.length > 0 && (
             <div className="text-center p-4">
               <p className="text-text-sub mb-4">「{searchQuery}」に一致する種目はありません。</p>
+            </div>
+          )}
+
+          {searchQuery.length > 0 && (
+            <div className="text-center p-4">
               <button
                 onClick={handleAddNewExercise}
                 className="bg-accent text-white font-bold rounded-lg px-6 py-3"
