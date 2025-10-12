@@ -52,42 +52,49 @@ const SetRow = ({ set, sessionExerciseId, isEditing, onStartEdit, onCancelEdit }
     return (
       <li className="bg-background p-2 rounded-lg">
         <form onSubmit={handleSave} className="flex items-center gap-2">
+          <button type="button" onClick={handleDelete} className="p-1 text-destructive hover:opacity-75"><Trash2 size={16} /></button>
           <input
             type="number"
             value={weight}
             onChange={e => setWeight(e.target.value)}
             onKeyDown={handleEditWeightKeyDown}
             enterKeyHint="next"
-            className="w-full bg-surface text-text-main rounded-lg px-2 py-1 border-none focus:ring-2 focus:ring-primary"
+            className="w-full bg-surface text-text-main rounded-lg px-2 py-1 border-none focus:ring-2 focus:ring-primary text-right"
             autoFocus
           />
-          <span className="text-text-sub">kg x</span>
+          <span className="text-text-sub text-xs">kg</span>
           <input
             ref={editRepsInputRef}
             type="number"
             value={reps}
             onChange={e => setReps(e.target.value)}
             enterKeyHint="done"
-            className="w-full bg-surface text-text-main rounded-lg px-2 py-1 border-none focus:ring-2 focus:ring-primary"
+            className="w-full bg-surface text-text-main rounded-lg px-2 py-1 border-none focus:ring-2 focus:ring-primary text-right"
           />
-          <span className="text-text-sub">reps</span>
+          <span className="text-text-sub text-xs">reps</span>
           <button type="submit" className="p-1 text-green-400 hover:text-green-300"><Check size={20} /></button>
-          <button type="button" onClick={onCancelEdit} className="p-1 text-gray-400 hover:text-gray-300"><X size={20} /></button>
-          <button type="button" onClick={handleDelete} className="p-1 text-destructive hover:opacity-75"><Trash2 size={20} /></button>
+          {/* <button type="button" onClick={onCancelEdit} className="p-1 text-gray-400 hover:text-gray-300"><X size={20} /></button> */}
         </form>
       </li>
     );
   }
 
   return (
-    <li className="flex justify-between items-center bg-background p-2 rounded-lg">
-      <div className="flex items-center gap-4">
-        <span className="text-text-main font-medium">{set.weight} kg</span>
-        <span className="text-text-sub">x</span>
-        <span className="text-text-main font-medium">{set.reps} reps</span>
+    <li className="flex justify-between items-center bg-background p-2 rounded-lg gap-2">
+      <button type="button" onClick={handleDelete} className="p-1 text-destructive hover:opacity-75"><Trash2 size={16} /></button>
+
+      <div className="flex-grow flex items-center gap-2">
+        <div className="w-full bg-surface text-text-main rounded-lg px-2 py-1 text-right">
+          {set.weight}
+        </div>
+        <span className="text-text-sub text-xs">kg</span>
+        <div className="w-full bg-surface text-text-main rounded-lg px-2 py-1 text-right">
+          {set.reps}
+        </div>
+        <span className="text-text-sub text-xs">reps</span>
       </div>
       <button onClick={() => onStartEdit(set)} className="p-1 text-text-sub hover:text-accent">
-        <Pencil size={16} />
+        <Pencil size={20} />
       </button>
     </li>
   );
@@ -192,8 +199,10 @@ export const ExerciseCard = ({ sessionExercise }: ExerciseCardProps) => {
             onChange={(e) => setNewWeight(e.target.value)}
             onKeyDown={handleWeightKeyDown}
             enterKeyHint="next"
-            className="w-full bg-background text-text-main rounded-lg px-3 py-2 border-none focus:ring-2 focus:ring-primary"
+            className="w-full bg-surface text-text-main rounded-lg px-2 py-1 border-none focus:ring-2 focus:ring-primary text-right"
+            autoFocus
           />
+          <span className="text-text-sub text-xs">kg</span>
           <input
             ref={repsInputRef}
             type="number"
@@ -201,9 +210,11 @@ export const ExerciseCard = ({ sessionExercise }: ExerciseCardProps) => {
             value={newReps}
             onChange={(e) => setNewReps(e.target.value)}
             enterKeyHint="done"
-            className="w-full bg-background text-text-main rounded-lg px-3 py-2 border-none focus:ring-2 focus:ring-primary"
+            className="w-full bg-surface text-text-main rounded-lg px-2 py-1 border-none focus:ring-2 focus:ring-primary text-right"
           />
+          <span className="text-text-sub text-xs">reps</span>
           <button type="submit" className="p-1 text-green-400 hover:text-green-300"><Check size={20} /></button>
+
         </div>
       </form>
     </section>
