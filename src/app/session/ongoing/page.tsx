@@ -10,7 +10,7 @@ import { Plus } from 'lucide-react';
 import { useMainNavStore } from '@/stores/ui-store';
 
 export default function OngoingSessionPage() {
-  const { exercises: exercisesFromStore, clearSession, isActive } = useSessionStore();
+  const { exercises: exercisesFromStore, clearSession, isActive, startDate } = useSessionStore();
   const exercises = exercisesFromStore || [];
   const [isModalOpen, setIsModalOpen] = useState(false);
   const router = useRouter();
@@ -51,7 +51,7 @@ export default function OngoingSessionPage() {
     if (exercises.length > 0 && window.confirm('記録を保存してトレーニングを終了しますか？')) {
       try {
         await db.completedWorkouts.add({
-          date: new Date(),
+          date: startDate || new Date(),
           exercises: exercises,
         });
         clearSession();
@@ -74,7 +74,19 @@ export default function OngoingSessionPage() {
     <>
       <div className="flex flex-col h-full bg-background text-text-main p-4 sm:p-6">
         <header className="sticky top-0 flex justify-between items-center mb-6">
-          <h1 className="text-2xl font-bold">トレーニング中</h1>
+          <div className="flex items-baseline space-x-2">
+            <h1 className="text-2xl font-bold">トレーニング中</h1>
+            {startDate && (
+              <p className="text-sm text-text-sub">
+                {startDate.toLocaleString('ja-JP', {
+                  month: '2-digit',
+                  day: '2-digit',
+                  hour: '2-digit',
+                  minute: '2-digit',
+                })}
+              </p>
+            )}
+          </div>
           <button
             onClick={handleEndSession}
             className="bg-destructive text-white font-bold rounded-lg px-4 py-2 text-sm"

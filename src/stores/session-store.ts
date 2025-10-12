@@ -16,6 +16,7 @@ export interface SessionExercise {
 
 interface SessionState {
   isActive: boolean;
+  startDate: Date | null;
   exercises: SessionExercise[];
   startSession: () => void;
   addExerciseToSession: (exercise: { id: string; name: string }) => void;
@@ -30,8 +31,9 @@ export const useSessionStore = create<SessionState>()(
   persist(
     (set) => ({
       isActive: false,
+      startDate: null,
       exercises: [],
-      startSession: () => set({ isActive: true, exercises: [] }),
+      startSession: () => set({ isActive: true, exercises: [], startDate: new Date() }),
       addExerciseToSession: (exercise) => {
         const newSessionExercise: SessionExercise = {
           id: crypto.randomUUID(),
@@ -80,7 +82,7 @@ export const useSessionStore = create<SessionState>()(
           ),
         }));
       },
-      clearSession: () => set({ isActive: false, exercises: [] }),
+      clearSession: () => set({ isActive: false, exercises: [], startDate: null }),
     }),
     {
       name: 'workout-session-storage',
