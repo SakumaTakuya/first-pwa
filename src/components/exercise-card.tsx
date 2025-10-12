@@ -80,15 +80,19 @@ const SetRow = ({ set, sessionExerciseId, isEditing, onStartEdit, onCancelEdit }
   }
 
   return (
-    <li className="flex justify-between items-center bg-background p-2 rounded-lg">
-      <div className="flex items-center gap-4">
-        <span className="text-text-main">{set.weight}</span>
+    <li className="flex justify-between items-center bg-background p-2 rounded-lg gap-2">
+      <div className="flex-grow flex items-center gap-2">
+        <div className="w-full bg-surface text-text-main rounded-lg px-2 py-1 text-right">
+          {set.weight}
+        </div>
         <span className="text-text-sub text-xs">kg</span>
-        <span className="text-text-main">{set.reps}</span>
+        <div className="w-full bg-surface text-text-main rounded-lg px-2 py-1 text-right">
+          {set.reps}
+        </div>
         <span className="text-text-sub text-xs">reps</span>
       </div>
       <button onClick={() => onStartEdit(set)} className="p-1 text-text-sub hover:text-accent">
-        <Pencil size={16} />
+        <Pencil size={20} />
       </button>
     </li>
   );
