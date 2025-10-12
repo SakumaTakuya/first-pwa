@@ -16,11 +16,11 @@ export const MainNav: React.FC = () => {
 
   return (
     <nav
-      className="z-30 fixed bottom-0 left-0 right-0 flex flex-rows gap-x-4 justify-center items-center"
+      className="z-30 fixed bottom-0 left-0 right-0 flex flex-rows gap-x-2 justify-center items-center m-2"
       style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}
     >
-      <div className="bg-surface/80 backdrop-blur-lg flex items-center max-w-md h-20 border rounded-full flex-grow transition-all duration-300 ease-in-out">
-        <div className="flex gap-x-10 justify-around grow-1">
+      <div className="bg-surface/80 backdrop-blur-lg flex items-center max-w-md h-16 border rounded-full flex-grow transition-all duration-300 ease-in-out">
+        <div className="flex justify-around grow-1">
           {navItems.map(({ href, label, icon: Icon }) => {
             const isActive = pathname === href;
             return (
@@ -37,13 +37,13 @@ export const MainNav: React.FC = () => {
       </div>
 
       <div
-        className={`transition-all duration-300 ease-in-out overflow-hidden ${navConfig.actionButton ? 'max-w-[6rem] ml-auto' : 'max-w-0 ml-0'
+        className={`transition-all duration-150 overflow-hidden ${navConfig.actionButton ? 'max-w-16 ml-auto' : 'max-w-0 ml-0'
           }`}
       >
         <button
           onClick={navConfig.actionButton?.onClick}
           disabled={!navConfig.actionButton}
-          className="bg-accent text-white rounded-full w-14 h-14 flex items-center justify-center shadow-lg"
+          className="bg-accent text-white rounded-full w-16 h-16 flex items-center justify-center shadow-lg"
         >
           <Plus size={28} />
         </button>
