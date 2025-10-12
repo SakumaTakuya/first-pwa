@@ -52,7 +52,7 @@ const SetRow = ({ set, sessionExerciseId, isEditing, onStartEdit, onCancelEdit }
     return (
       <li className="bg-background p-2 rounded-lg">
         <form onSubmit={handleSave} className="flex items-center gap-2">
-          <button type="button" onClick={handleDelete} className="p-1 text-destructive hover:opacity-75"><Trash2 size={20} /></button>
+          <button type="button" onClick={handleDelete} className="p-1 text-destructive hover:opacity-75"><Trash2 size={16} /></button>
           <input
             type="number"
             value={weight}
@@ -73,7 +73,7 @@ const SetRow = ({ set, sessionExerciseId, isEditing, onStartEdit, onCancelEdit }
           />
           <span className="text-text-sub text-xs">reps</span>
           <button type="submit" className="p-1 text-green-400 hover:text-green-300"><Check size={20} /></button>
-          <button type="button" onClick={onCancelEdit} className="p-1 text-gray-400 hover:text-gray-300"><X size={20} /></button>
+          {/* <button type="button" onClick={onCancelEdit} className="p-1 text-gray-400 hover:text-gray-300"><X size={20} /></button> */}
         </form>
       </li>
     );
@@ -81,6 +81,8 @@ const SetRow = ({ set, sessionExerciseId, isEditing, onStartEdit, onCancelEdit }
 
   return (
     <li className="flex justify-between items-center bg-background p-2 rounded-lg gap-2">
+      <button type="button" onClick={handleDelete} className="p-1 text-destructive hover:opacity-75"><Trash2 size={16} /></button>
+
       <div className="flex-grow flex items-center gap-2">
         <div className="w-full bg-surface text-text-main rounded-lg px-2 py-1 text-right">
           {set.weight}
