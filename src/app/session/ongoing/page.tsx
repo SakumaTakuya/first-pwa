@@ -74,7 +74,19 @@ export default function OngoingSessionPage() {
     <>
       <div className="flex flex-col h-full bg-background text-text-main p-4 sm:p-6">
         <header className="sticky top-0 flex justify-between items-center mb-6">
-          <h1 className="text-2xl font-bold">トレーニング中</h1>
+          <div className="flex items-baseline space-x-2">
+            <h1 className="text-2xl font-bold">トレーニング中</h1>
+            {startDate && (
+              <p className="text-sm text-text-sub">
+                {startDate.toLocaleString('ja-JP', {
+                  month: '2-digit',
+                  day: '2-digit',
+                  hour: '2-digit',
+                  minute: '2-digit',
+                })}
+              </p>
+            )}
+          </div>
           <button
             onClick={handleEndSession}
             className="bg-destructive text-white font-bold rounded-lg px-4 py-2 text-sm"
