@@ -13,10 +13,10 @@ export default function HistoryPage() {
   const [selectedDate, setSelectedDate] = useState<Date | undefined>();
   const [selectedExercise, setSelectedExercise] = useState<{ id: string, name: string } | null>(null);
 
-  const workoutDates = allWorkouts?.map(w => w.date) || [];
+  const workoutDates = allWorkouts?.map(w => new Date(w.date)) || [];
 
   const selectedWorkout = allWorkouts?.find(w =>
-    selectedDate && w.date.toDateString() === selectedDate.toDateString()
+    selectedDate && new Date(w.date).toDateString() === selectedDate.toDateString()
   );
 
   return (
