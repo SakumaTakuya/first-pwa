@@ -55,7 +55,7 @@ const SetRow = ({ set, sessionExerciseId, isEditing, onStartEdit, onCancelEdit }
     return (
       <li className="p-2">
         <form onSubmit={handleSave} className="flex items-center gap-2">
-          <Button type="button" variant="destructive" size="icon" onClick={handleDelete}><Trash2 size={16} /></Button>
+          <Button type="button" variant="ghost-destructive" size="icon" onClick={handleDelete}><Trash2 size={16} /></Button>
           <Input
             type="number"
             value={weight}
@@ -75,7 +75,7 @@ const SetRow = ({ set, sessionExerciseId, isEditing, onStartEdit, onCancelEdit }
             className="text-right"
           />
           <span className="text-text-sub text-xs">reps</span>
-          <Button type="submit" variant="accent" size="icon"><Check size={20} /></Button>
+          <Button type="submit" variant="ghost-accent" size="icon"><Check size={20} /></Button>
         </form>
       </li>
     );
@@ -83,7 +83,7 @@ const SetRow = ({ set, sessionExerciseId, isEditing, onStartEdit, onCancelEdit }
 
   return (
     <li className="flex justify-between items-center bg-background p-2 rounded-lg gap-2">
-      <Button type="button" variant="destructive" size="icon" onClick={handleDelete}><Trash2 size={16} /></Button>
+      <Button type="button" variant="ghost-destructive" size="icon" onClick={handleDelete}><Trash2 size={16} /></Button>
 
       <div className="flex-grow flex items-center gap-2">
         <Input
@@ -179,7 +179,7 @@ export const ExerciseCard = ({ sessionExercise }: ExerciseCardProps) => {
     <Card>
       <CardHeader>
         <div className="flex gap-2 items-center">
-          <Button onClick={handleDelete} variant="destructive" size="icon">
+          <Button onClick={handleDelete} variant="ghost-destructive" size="icon">
             <Trash2 size={16} />
           </Button>
           <CardTitle>{sessionExercise.exerciseName}</CardTitle>
@@ -223,7 +223,7 @@ export const ExerciseCard = ({ sessionExercise }: ExerciseCardProps) => {
               className="text-right"
             />
             <span className="text-text-sub text-xs">reps</span>
-            <Button type="submit" variant="accent" size="icon"><Check size={20} /></Button>
+            <Button type="submit" variant="ghost-accent" size="icon"><Check size={20} /></Button>
           </div>
         </form>
       </CardContent>
