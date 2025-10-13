@@ -53,7 +53,7 @@ const SetRow = ({ set, sessionExerciseId, isEditing, onStartEdit, onCancelEdit }
 
   if (isEditing) {
     return (
-      <li className="bg-background p-2 rounded-lg">
+      <li className="p-2">
         <form onSubmit={handleSave} className="flex items-center gap-2">
           <Button type="button" variant="destructive" size="icon" onClick={handleDelete}><Trash2 size={16} /></Button>
           <Input
@@ -186,7 +186,7 @@ export const ExerciseCard = ({ sessionExercise }: ExerciseCardProps) => {
         </div>
       </CardHeader>
       <CardContent>
-        <ul className="space-y-2 mb-4">
+        <ul className="mb-4 rounded-lg bg-background">
           {sessionExercise.sets.map((set) => (
             <SetRow
               key={set.id}
