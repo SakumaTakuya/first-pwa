@@ -6,7 +6,6 @@ import { ExerciseCard } from '@/components/exercise-card';
 import { AddExerciseModal } from '@/components/add-exercise-modal';
 import { useRouter } from 'next/navigation';
 import { db } from '@/lib/db';
-import { Plus } from 'lucide-react';
 import { useMainNavStore } from '@/stores/ui-store';
 
 export default function OngoingSessionPage() {
