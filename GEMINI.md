@@ -196,6 +196,97 @@ UIに奥行きとモダンな雰囲気を与えるため、カードやナビゲ
 | 履歴       | `History`           | `fa-chart-line`      |
 | ダンベル   | `Dumbbell`          | `fa-dumbbell`        |
 
+## UIコンポーネント (`src/components/ui`)
+
+プロジェクトのUIの一貫性と再利用性を高めるため、汎用的なUIコンポーネントを`src/components/ui`に集約しています。新しいUIを実装する際は、まずこれらのコンポーネントが利用できないか検討してください。
+
+### `Button`
+
+標準的なボタンです。`cva`を用いて、見た目やサイズのバリエーションを管理しています。
+
+**Props:**
+- `variant`: ボタンの目的や重要度を示します。詳細は以下の表を参照してください。
+- `size`: `default`, `sm`, `lg`, `icon`, `fab`
+- その他、標準の`<button>`要素が受け取る全ての属性。
+
+**Variantの使い分け**
+
+| variant | 色 | 用途 |
+| :--- | :--- | :--- |
+| **`default`** | **青 (`primary`)** | **主要なアクション**。その画面でユーザーに最も実行してほしい、最重要のアクションに使用します。 |
+| **`accent`** | **緑 (`accent`)** | **成功・完了・追加**を示すアクション。「セット追加」のように、タスクの完了や記録の追加といったポジティブなフィードバックをユーザーに与えたい場合に使用します。 |
+| **`destructive`** | **赤 (`destructive`)** | **破壊的なアクション**。「削除」のように、元に戻すのが難しいデータ操作を伴うアクションに使用し、ユーザーに注意を促します。 |
+| **`secondary`** | **濃い灰色** | **副次的なアクション**。「キャンセル」のように、主要アクションほど重要ではないが、選択肢として提示したい場合に使用します。 |
+| **`outline`** | **透明（枠線あり）** | `secondary`と似ていますが、それより少し目立たせたい副次的なアクションに使用します。「編集」ボタンなどがこれに当たります。 |
+| **`ghost`** | **透明** | **最も控えめなアクション**。モーダルの「閉じる」ボタンなど、主要なコンテンツの邪魔にならず、かつ操作可能であることを示したい場合に使用します。 |
+| **`link`** | **青（下線あり）** | **リンクとして振る舞うアクション**。他のページへの遷移など、外観も挙動もテキストリンクとして見せたい場合に使用します。 |
+| **`fab`** | **青 (`primary`)** | **画面全体の主要アクション**。画面上で最も重要かつ頻繁に使う単一のアクションに使用する、特別なボタンです。 |
+
+
+### `Input`
+
+標準的な入力フィールドです。
+
+**使用例:**
+```tsx
+import { Input } from '@/components/ui/input';
+
+<Input type="email" placeholder="メールアドレス" />
+```
+
+### `Card`
+
+カード型のレイアウトコンポーネントです。`CardHeader`, `CardContent`, `CardFooter`などの子コンポーネントと組み合わせて使用します。
+
+**使用例:**
+```tsx
+import { Card, CardHeader, CardTitle, CardContent, CardFooter } from '@/components/ui/card';
+
+<Card>
+  <CardHeader>
+    <CardTitle>カードタイトル</CardTitle>
+  </CardHeader>
+  <CardContent>
+    <p>カードのコンテンツ</p>
+  </CardContent>
+</Card>
+```
+
+### `Dialog`
+
+モーダルダイアログを表示するためのコンポーネントです。`@radix-ui/react-dialog`をベースにしており、アクセシビリティに配慮されています。
+
+**使用例:**
+```tsx
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+
+<Dialog>
+  <DialogTrigger asChild>
+    <Button variant="outline">ダイアログを開く</Button>
+  </DialogTrigger>
+  <DialogContent>
+    <DialogHeader>
+      <DialogTitle>ダイアログのタイトル</DialogTitle>
+    </DialogHeader>
+    <p>ダイアログのコンテンツ</p>
+  </DialogContent>
+</Dialog>
+```
+
+## コンポーネント開発ガイドライン
+
+1.  **UIコンポーネントの再利用**: 新しい機能を開発する際、ボタン、入力フォーム、カードなどの基本的なUI要素が必要な場合は、まず`src/components/ui`内の共通コンポーネントを利用してください。
+2.  **コンポジション（組み合わせ）**: 複雑なコンポーネントは、小さな単機能のコンポーネントを組み合わせて作成します。これにより、各コンポーネントが単一の責任を持つことになり、コードの見通しが良くなります。
+3.  **スタイリング**:
+    - スタイリングにはTailwind CSSのユーティリティクラスを使用します。
+    - コンポーネントに複数の見た目のバリエーションが必要な場合は、`cva` (class-variance-authority) を使用してスタイルを管理してください。
+
 # 16. 静的サイト生成とデプロイ
 
 本プロジェクトは、静的サイトとしてビルドされ、GitHub Pagesにデプロイされるように構成されています。

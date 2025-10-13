@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Home, History, Plus } from 'lucide-react';
 import { useMainNavStore } from '@/stores/ui-store';
+import { Button } from '@/components/ui/button';
 
 const navItems = [
   { href: '/session/ongoing', label: 'Home', icon: Home },
@@ -27,7 +28,7 @@ export const MainNav: React.FC = () => {
               <Link
                 key={href}
                 href={href}
-                className={`flex flex-col items-center justify-center ${isActive ? 'text-accent' : 'text-text-sub'}`}>
+                className={`flex flex-col items-center justify-center ${isActive ? 'text-primary' : 'text-text-sub'}`}>
                 <Icon className="h-6 w-6 mb-1" />
                 <span className="text-xs font-medium">{label}</span>
               </Link>
@@ -40,13 +41,14 @@ export const MainNav: React.FC = () => {
         className={`transition-all duration-150 overflow-hidden ${navConfig.actionButton ? 'max-w-16 ml-auto' : 'max-w-0 ml-0'
           }`}
       >
-        <button
+        <Button
+          variant="fab"
+          size="fab"
           onClick={navConfig.actionButton?.onClick}
           disabled={!navConfig.actionButton}
-          className="bg-accent text-white rounded-full w-16 h-16 flex items-center justify-center shadow-lg"
         >
           <Plus size={28} />
-        </button>
+        </Button>
       </div>
     </nav>
   );
