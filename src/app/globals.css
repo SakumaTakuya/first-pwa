@@ -1,19 +1,24 @@
 @import "tailwindcss";
+@import "react-day-picker/dist/style.css";
 
 :root {
   --background: #ffffff;
   --foreground: #171717;
   --primary: #3B82F6;
   --primary-foreground: #ffffff;
-  --secondary: #f3f4f6; /* A light gray for light mode */
+  --secondary: #f3f4f6;
+  /* A light gray for light mode */
   --secondary-foreground: #171717;
   --accent: #34D399;
+  --accent-foreground: #ffffff;
   --surface: #ffffff;
-  --border: #e5e7eb; /* A light gray for light mode */
+  --border: #e5e7eb;
+  /* A light gray for light mode */
   --destructive: #F87171;
   --destructive-foreground: #ffffff;
   --text-main: #171717;
-  --text-sub: #6b7280; /* A medium gray for light mode */
+  --text-sub: #6b7280;
+  /* A medium gray for light mode */
 }
 
 @media (prefers-color-scheme: dark) {
@@ -25,6 +30,7 @@
     --secondary: #334155;
     --secondary-foreground: #E2E8F0;
     --accent: #34D399;
+    --accent-foreground: #0F172A;
     --surface: #1E293B;
     --border: #334155;
     --destructive: #F87171;
@@ -42,6 +48,7 @@
   --color-secondary: var(--secondary);
   --color-secondary-foreground: var(--secondary-foreground);
   --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
   --color-surface: var(--surface);
   --color-border: var(--border);
   --color-destructive: var(--destructive);
@@ -54,4 +61,10 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+.rdp-root {
+  --rdp-accent-color: var(--primary);
+  --rdp-background-color: var(--surface);
+  --rdp-today-color: var(--accent);
 }

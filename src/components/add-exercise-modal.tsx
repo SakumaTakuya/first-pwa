@@ -108,7 +108,7 @@ export const AddExerciseModal = ({ isOpen, onClose }: AddExerciseModalProps) => 
 
           {searchQuery.length > 0 && (
             <div className="text-center p-4">
-              <Button onClick={handleAddNewExercise} variant="secondary">
+              <Button onClick={handleAddNewExercise} variant="default">
                 新しい種目として追加
               </Button>
             </div>

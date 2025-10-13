@@ -3,8 +3,7 @@
 import { useState } from 'react';
 import { useLiveQuery } from 'dexie-react-hooks';
 import { db } from '@/lib/db';
-import { DayPicker } from 'react-day-picker';
-import 'react-day-picker/dist/style.css';
+import { Calendar } from '@/components/ui/calendar';
 import { ja } from 'date-fns/locale';
 import { ProgressGraphModal } from '@/components/progress-graph-modal';
 
@@ -28,14 +27,13 @@ export default function HistoryPage() {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <div className="md:col-span-1">
-            <DayPicker
+            <Calendar
               mode="single"
               selected={selectedDate}
               onSelect={setSelectedDate}
               modifiers={{ workoutDay: workoutDates }}
-              modifiersStyles={{ workoutDay: { fontWeight: 'bold', color: '#34D399' } }}
+              modifiersClassNames={{ workoutDay: 'font-bold text-primary' }}
               locale={ja}
-              className="bg-surface rounded-xl p-4"
             />
           </div>
           <div className="md:col-span-2">

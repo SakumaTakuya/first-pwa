@@ -28,7 +28,7 @@ export const MainNav: React.FC = () => {
               <Link
                 key={href}
                 href={href}
-                className={`flex flex-col items-center justify-center ${isActive ? 'text-accent' : 'text-text-sub'}`}>
+                className={`flex flex-col items-center justify-center ${isActive ? 'text-primary' : 'text-text-sub'}`}>
                 <Icon className="h-6 w-6 mb-1" />
                 <span className="text-xs font-medium">{label}</span>
               </Link>

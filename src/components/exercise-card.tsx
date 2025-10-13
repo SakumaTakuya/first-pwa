@@ -75,7 +75,7 @@ const SetRow = ({ set, sessionExerciseId, isEditing, onStartEdit, onCancelEdit }
             className="text-right"
           />
           <span className="text-text-sub text-xs">reps</span>
-          <Button type="submit" variant="ghost" size="icon"><Check size={20} /></Button>
+          <Button type="submit" variant="accent" size="icon"><Check size={20} /></Button>
         </form>
       </li>
     );
@@ -223,7 +223,7 @@ export const ExerciseCard = ({ sessionExercise }: ExerciseCardProps) => {
               className="text-right"
             />
             <span className="text-text-sub text-xs">reps</span>
-            <Button type="submit" variant="ghost" size="icon"><Check size={20} /></Button>
+            <Button type="submit" variant="accent" size="icon"><Check size={20} /></Button>
           </div>
         </form>
       </CardContent>
