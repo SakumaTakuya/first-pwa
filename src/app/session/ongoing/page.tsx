@@ -105,7 +105,7 @@ export default function OngoingSessionPage() {
           )}
         </main>
 
-        {isModalOpen && <AddExerciseModal onClose={() => setIsModalOpen(false)} />}
+        {isModalOpen && <AddExerciseModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />}
       </div>
     </>
   );

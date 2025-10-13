@@ -3,12 +3,22 @@
 import { useMasterDataStore } from '@/stores/master-data-store';
 import { useSessionStore } from '@/stores/session-store';
 import { useState } from 'react';
+import { Button } from '@/components/ui/button';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogFooter,
+} from '@/components/ui/dialog';
+import { Input } from '@/components/ui/input';
 
 interface AddExerciseModalProps {
+  isOpen: boolean;
   onClose: () => void;
 }
 
-export const AddExerciseModal = ({ onClose }: AddExerciseModalProps) => {
+export const AddExerciseModal = ({ isOpen, onClose }: AddExerciseModalProps) => {
   const {
     masterExerciseList,
     exerciseHistory,
@@ -38,15 +48,17 @@ export const AddExerciseModal = ({ onClose }: AddExerciseModalProps) => {
     .filter((ex) => ex !== undefined);
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50">
-      <div className="bg-surface rounded-xl shadow-lg w-full max-w-md h-[80vh] flex flex-col">
+    <Dialog open={isOpen} onOpenChange={onClose}>
+      <DialogContent className="h-[80vh] flex flex-col">
+        <DialogHeader>
+          <DialogTitle>種目を追加</DialogTitle>
+        </DialogHeader>
         <div className="p-4 border-b border-border">
-          <input
+          <Input
             type="text"
             placeholder="種目を検索..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full bg-background text-text-main rounded-lg px-4 py-2 border-none focus:ring-2 focus:ring-primary"
           />
         </div>
         <div className="overflow-y-auto p-4 flex-1">
@@ -57,12 +69,13 @@ export const AddExerciseModal = ({ onClose }: AddExerciseModalProps) => {
               <ul className="space-y-2">
                 {historyExercises.map((ex) => (
                   <li key={`hist-${ex!.id}`}>
-                    <button
+                    <Button
+                      variant="ghost"
+                      className="w-full justify-start"
                       onClick={() => handleSelectExercise(ex!)}
-                      className="w-full text-left p-3 bg-background rounded-lg hover:bg-primary/20 transition-colors"
                     >
                       {ex!.name}
-                    </button>
+                    </Button>
                   </li>
                 ))}
               </ul>
@@ -75,12 +88,13 @@ export const AddExerciseModal = ({ onClose }: AddExerciseModalProps) => {
             <ul className="space-y-2">
               {filteredList.map((ex) => (
                 <li key={ex.id}>
-                  <button
+                  <Button
+                    variant="ghost"
+                    className="w-full justify-start"
                     onClick={() => handleSelectExercise(ex)}
-                    className="w-full text-left p-3 bg-background rounded-lg hover:bg-primary/20 transition-colors"
                   >
                     {ex.name}
-                  </button>
+                  </Button>
                 </li>
               ))}
             </ul>
@@ -94,21 +108,18 @@ export const AddExerciseModal = ({ onClose }: AddExerciseModalProps) => {
 
           {searchQuery.length > 0 && (
             <div className="text-center p-4">
-              <button
-                onClick={handleAddNewExercise}
-                className="bg-accent text-white font-bold rounded-lg px-6 py-3"
-              >
+              <Button onClick={handleAddNewExercise} variant="secondary">
                 新しい種目として追加
-              </button>
+              </Button>
             </div>
           )}
         </div>
-        <div className="p-4 border-t border-border text-center">
-          <button onClick={onClose} className="text-text-sub hover:text-text-main">
+        <DialogFooter>
+          <Button onClick={onClose} variant="ghost">
             閉じる
-          </button>
-        </div>
-      </div>
-    </div>
+          </Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
   );
 };

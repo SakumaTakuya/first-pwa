@@ -1,11 +1,14 @@
 'use client';
 
 import { useEffect, useState, useRef, type KeyboardEvent } from 'react';
-import { Pencil, Check, X, Trash2 } from 'lucide-react';
+import { Pencil, Check, Trash2 } from 'lucide-react';
 
 import { db } from '@/lib/db';
 import type { SessionExercise, Set } from '@/stores/session-store';
 import { useSessionStore } from '@/stores/session-store';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
 
 // Props for the SetRow component
 interface SetRowProps {
@@ -52,28 +55,27 @@ const SetRow = ({ set, sessionExerciseId, isEditing, onStartEdit, onCancelEdit }
     return (
       <li className="bg-background p-2 rounded-lg">
         <form onSubmit={handleSave} className="flex items-center gap-2">
-          <button type="button" onClick={handleDelete} className="p-1 text-destructive hover:opacity-75"><Trash2 size={16} /></button>
-          <input
+          <Button type="button" variant="destructive" size="icon" onClick={handleDelete}><Trash2 size={16} /></Button>
+          <Input
             type="number"
             value={weight}
             onChange={e => setWeight(e.target.value)}
             onKeyDown={handleEditWeightKeyDown}
             enterKeyHint="next"
-            className="w-full bg-surface text-text-main rounded-lg px-2 py-1 border-none focus:ring-2 focus:ring-primary text-right"
+            className="text-right"
             autoFocus
           />
           <span className="text-text-sub text-xs">kg</span>
-          <input
+          <Input
             ref={editRepsInputRef}
             type="number"
             value={reps}
             onChange={e => setReps(e.target.value)}
             enterKeyHint="done"
-            className="w-full bg-surface text-text-main rounded-lg px-2 py-1 border-none focus:ring-2 focus:ring-primary text-right"
+            className="text-right"
           />
           <span className="text-text-sub text-xs">reps</span>
-          <button type="submit" className="p-1 text-green-400 hover:text-green-300"><Check size={20} /></button>
-          {/* <button type="button" onClick={onCancelEdit} className="p-1 text-gray-400 hover:text-gray-300"><X size={20} /></button> */}
+          <Button type="submit" variant="ghost" size="icon"><Check size={20} /></Button>
         </form>
       </li>
     );
@@ -81,21 +83,27 @@ const SetRow = ({ set, sessionExerciseId, isEditing, onStartEdit, onCancelEdit }
 
   return (
     <li className="flex justify-between items-center bg-background p-2 rounded-lg gap-2">
-      <button type="button" onClick={handleDelete} className="p-1 text-destructive hover:opacity-75"><Trash2 size={16} /></button>
+      <Button type="button" variant="destructive" size="icon" onClick={handleDelete}><Trash2 size={16} /></Button>
 
       <div className="flex-grow flex items-center gap-2">
-        <div className="w-full bg-surface text-text-main rounded-lg px-2 py-1 text-right">
-          {set.weight}
-        </div>
+        <Input
+          type="number"
+          value={set.weight}
+          readOnly
+          className="text-right border-none bg-surface"
+        />
         <span className="text-text-sub text-xs">kg</span>
-        <div className="w-full bg-surface text-text-main rounded-lg px-2 py-1 text-right">
-          {set.reps}
-        </div>
+        <Input
+          type="number"
+          value={set.reps}
+          readOnly
+          className="text-right border-none bg-surface"
+        />
         <span className="text-text-sub text-xs">reps</span>
       </div>
-      <button onClick={() => onStartEdit(set)} className="p-1 text-text-sub hover:text-accent">
+      <Button onClick={() => onStartEdit(set)} variant="ghost" size="icon">
         <Pencil size={20} />
-      </button>
+      </Button>
     </li>
   );
 }
@@ -168,55 +176,57 @@ export const ExerciseCard = ({ sessionExercise }: ExerciseCardProps) => {
   };
 
   return (
-    <section className="bg-surface rounded-xl shadow-md p-4 w-full">
-      <div className="flex gap-2 items-center mb-2">
-        <button onClick={handleDelete} className="p-1 text-destructive hover:opacity-75">
-          <Trash2 size={16} />
-        </button>
-        <h3 className="text-xl font-bold text-text-main">{sessionExercise.exerciseName}</h3>
-      </div>
-
-      <ul className="space-y-2 mb-4">
-        {sessionExercise.sets.map((set) => (
-          <SetRow
-            key={set.id}
-            set={set}
-            sessionExerciseId={sessionExercise.id}
-            isEditing={editingSetId === set.id}
-            onStartEdit={(setToEdit) => setEditingSetId(setToEdit.id)}
-            onCancelEdit={() => setEditingSetId(null)}
-          />
-        ))}
-      </ul>
-
-      <form onSubmit={handleAddSet}>
-        <div className="flex items-center gap-2">
-          <input
-            ref={weightInputRef}
-            type="number"
-            placeholder="重量(kg)"
-            value={newWeight}
-            onChange={(e) => setNewWeight(e.target.value)}
-            onKeyDown={handleWeightKeyDown}
-            enterKeyHint="next"
-            className="w-full bg-surface text-text-main rounded-lg px-2 py-1 border-none focus:ring-2 focus:ring-primary text-right"
-            autoFocus
-          />
-          <span className="text-text-sub text-xs">kg</span>
-          <input
-            ref={repsInputRef}
-            type="number"
-            placeholder="回数"
-            value={newReps}
-            onChange={(e) => setNewReps(e.target.value)}
-            enterKeyHint="done"
-            className="w-full bg-surface text-text-main rounded-lg px-2 py-1 border-none focus:ring-2 focus:ring-primary text-right"
-          />
-          <span className="text-text-sub text-xs">reps</span>
-          <button type="submit" className="p-1 text-green-400 hover:text-green-300"><Check size={20} /></button>
-
+    <Card>
+      <CardHeader>
+        <div className="flex gap-2 items-center">
+          <Button onClick={handleDelete} variant="destructive" size="icon">
+            <Trash2 size={16} />
+          </Button>
+          <CardTitle>{sessionExercise.exerciseName}</CardTitle>
         </div>
-      </form>
-    </section>
+      </CardHeader>
+      <CardContent>
+        <ul className="space-y-2 mb-4">
+          {sessionExercise.sets.map((set) => (
+            <SetRow
+              key={set.id}
+              set={set}
+              sessionExerciseId={sessionExercise.id}
+              isEditing={editingSetId === set.id}
+              onStartEdit={(setToEdit) => setEditingSetId(setToEdit.id)}
+              onCancelEdit={() => setEditingSetId(null)}
+            />
+          ))}
+        </ul>
+
+        <form onSubmit={handleAddSet}>
+          <div className="flex items-center gap-2">
+            <Input
+              ref={weightInputRef}
+              type="number"
+              placeholder="重量(kg)"
+              value={newWeight}
+              onChange={(e) => setNewWeight(e.target.value)}
+              onKeyDown={handleWeightKeyDown}
+              enterKeyHint="next"
+              className="text-right"
+              autoFocus
+            />
+            <span className="text-text-sub text-xs">kg</span>
+            <Input
+              ref={repsInputRef}
+              type="number"
+              placeholder="回数"
+              value={newReps}
+              onChange={(e) => setNewReps(e.target.value)}
+              enterKeyHint="done"
+              className="text-right"
+            />
+            <span className="text-text-sub text-xs">reps</span>
+            <Button type="submit" variant="ghost" size="icon"><Check size={20} /></Button>
+          </div>
+        </form>
+      </CardContent>
+    </Card>
   );
 };
