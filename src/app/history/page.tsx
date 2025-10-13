@@ -71,6 +71,7 @@ export default function HistoryPage() {
       </div>
       {selectedExercise && allWorkouts && (
         <ProgressGraphModal
+          isOpen={!!selectedExercise}
           workouts={allWorkouts}
           exerciseId={selectedExercise.id}
           exerciseName={selectedExercise.name}
