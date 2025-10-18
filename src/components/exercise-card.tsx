@@ -176,7 +176,7 @@ export const ExerciseCard = ({ sessionExercise }: ExerciseCardProps) => {
   };
 
   return (
-    <Card>
+    <Card variant="island">
       <CardHeader>
         <div className="flex gap-2 items-center">
           <Button onClick={handleDelete} variant="ghost-destructive" size="icon">

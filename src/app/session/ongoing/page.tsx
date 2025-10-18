@@ -81,7 +81,7 @@ export default function OngoingSessionPage() {
   return (
     <>
       <div className="flex flex-col h-full bg-background text-text-main p-4 sm:p-6">
-        <header className="sticky top-0 flex justify-between items-center mb-6">
+        <header className="z-30 sticky top-0 flex justify-between items-center mb-6">
           <div className="flex items-baseline space-x-2">
             <h1 className="text-2xl font-bold">トレーニング中</h1>
             {startDate && (
