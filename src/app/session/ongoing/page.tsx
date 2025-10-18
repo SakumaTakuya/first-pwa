@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { useSessionStore } from '@/stores/session-store';
 import { ExerciseCard } from '@/components/exercise-card';
 import { AddExerciseModal } from '@/components/add-exercise-modal';
@@ -15,6 +15,15 @@ export default function OngoingSessionPage() {
   const router = useRouter();
   const [hasHydrated, setHasHydrated] = useState(false);
   const { setNavConfig, resetNavConfig } = useMainNavStore();
+  const formattedStartDate = useMemo(() => {
+    if (!startDate) return '';
+    return new Date(startDate).toLocaleString('ja-JP', {
+      month: '2-digit',
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit',
+    });
+  }, [startDate]);
 
   useEffect(() => {
     setNavConfig({
@@ -76,14 +85,7 @@ export default function OngoingSessionPage() {
           <div className="flex items-baseline space-x-2">
             <h1 className="text-2xl font-bold">トレーニング中</h1>
             {startDate && (
-              <p className="text-sm text-text-sub">
-                {startDate.toLocaleString('ja-JP', {
-                  month: '2-digit',
-                  day: '2-digit',
-                  hour: '2-digit',
-                  minute: '2-digit',
-                })}
-              </p>
+              <p className="text-sm text-text-sub">{formattedStartDate}</p>
             )}
           </div>
           <button
