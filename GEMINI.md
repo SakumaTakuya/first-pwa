@@ -158,12 +158,9 @@ Tailwind CSS のデフォルトのスペーシングスケール (`p-2`, `m-4`�
 ### Glassmorphism（ガラス効果）
 UIに奥行きとモダンな雰囲気を与えるため、カードやナビゲーションにガラス効果を適用します。
 
--   **基本スタイル (`island-card`)**:
+-   **基本スタイル (`glass`)**:
     -   `backdrop-filter`: `blur(20px) saturate(180%)`
     -   `background`: `linear-gradient(135deg, rgba(30, 41, 59, 0.7), rgba(30, 41, 59, 0.4))`
-    -   `border`: `1px solid #334155`
--   **ホバー効果**: `transform: translateY(-2px)` と `box-shadow` の変化で浮き上がるようなフィードバックを与えます。
--   **対象コンポーネント**: `island-card`, `glass-header`, `glass-nav`, `glass-modal` など、用途に応じて透明度やぼかしの強度を調整します。
 
 ### アニメーション (Animation)
 ユーザーのアクションに対するフィードバックや画面遷移を滑らかに見せるために、アニメーションを導入します。
