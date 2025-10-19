@@ -1,19 +1,32 @@
 'use client';
 
 import Link from 'next/link';
+import { useSessionStore } from '@/stores/session-store';
 import { usePathname } from 'next/navigation';
-import { Home, History, Plus } from 'lucide-react';
+import { Home, History, Plus, Dumbbell } from 'lucide-react';
 import { useMainNavStore } from '@/stores/ui-store';
 import { Button } from '@/components/ui/button';
-
-const navItems = [
-  { href: '/session/ongoing', label: 'Home', icon: Home },
-  { href: '/history', label: 'History', icon: History },
-];
+import { useMemo } from 'react';
 
 export const MainNav: React.FC = () => {
+  const { isActive: isSessionActive } = useSessionStore();
   const pathname = usePathname();
   const { navConfig } = useMainNavStore();
+
+  const navItems = useMemo(() => [
+    isSessionActive ?
+      {
+        href: '/session/ongoing',
+        label: 'Training',
+        icon: Dumbbell,
+      } :
+      {
+        href: '/',
+        label: 'Home',
+        icon: Home,
+      },
+    { href: '/history', label: 'History', icon: History },
+  ], [isSessionActive]);
 
   return (
     <nav
@@ -28,7 +41,8 @@ export const MainNav: React.FC = () => {
               <Link
                 key={href}
                 href={href}
-                className={`flex flex-col items-center justify-center ${isActive ? 'text-primary' : 'text-text-sub'}`}>
+                className={`flex flex-col items-center justify-center ${isActive ? 'text-primary' : 'text-text-sub'}`}
+              >
                 <Icon className="h-6 w-6 mb-1" />
                 <span className="text-xs font-medium">{label}</span>
               </Link>
