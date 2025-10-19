@@ -29,12 +29,12 @@ interface ProgressGraphModalProps {
   onClose: () => void;
 }
 
-export const ProgressGraphModal = ({ 
-  workouts, 
-  exerciseId, 
+export const ProgressGraphModal = ({
+  workouts,
+  exerciseId,
   exerciseName,
   isOpen,
-  onClose 
+  onClose
 }: ProgressGraphModalProps) => {
 
   const data = useMemo(() => {
@@ -52,7 +52,7 @@ export const ProgressGraphModal = ({
       });
       if (maxWeightForDay > 0) {
         progressData.push({
-          date: workout.date.toLocaleDateString('ja-JP', { month: 'numeric', day: 'numeric' }),
+          date: new Date(workout.date).toLocaleDateString('ja-JP', { month: 'numeric', day: 'numeric' }),
           maxWeight: maxWeightForDay,
         });
       }
@@ -67,24 +67,24 @@ export const ProgressGraphModal = ({
           <DialogTitle>{exerciseName} の成長記録</DialogTitle>
         </DialogHeader>
         <div style={{ width: '100%', height: 400 }}>
-            <ResponsiveContainer>
-                <LineChart data={data}>
-                    <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
-                    <XAxis dataKey="date" stroke="#94A3B8" />
-                    <YAxis stroke="#94A3B8" unit="kg" />
-                    <Tooltip 
-                        contentStyle={{ backgroundColor: '#0F172A', border: '1px solid #334155' }} 
-                        labelStyle={{ color: '#E2E8F0' }}
-                    />
-                    <Legend wrapperStyle={{ color: '#E2E8F0' }} />
-                    <Line type="monotone" dataKey="maxWeight" name="最大重量 (kg)" stroke="#34D399" strokeWidth={2} />
-                </LineChart>
-            </ResponsiveContainer>
+          <ResponsiveContainer>
+            <LineChart data={data}>
+              <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
+              <XAxis dataKey="date" stroke="#94A3B8" />
+              <YAxis stroke="#94A3B8" unit="kg" />
+              <Tooltip
+                contentStyle={{ backgroundColor: '#0F172A', border: '1px solid #334155' }}
+                labelStyle={{ color: '#E2E8F0' }}
+              />
+              <Legend wrapperStyle={{ color: '#E2E8F0' }} />
+              <Line type="monotone" dataKey="maxWeight" name="最大重量 (kg)" stroke="#34D399" strokeWidth={2} />
+            </LineChart>
+          </ResponsiveContainer>
         </div>
         <DialogFooter>
-            <Button onClick={onClose}>
-                閉じる
-            </Button>
+          <Button onClick={onClose}>
+            閉じる
+          </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useLiveQuery } from 'dexie-react-hooks';
 import { db } from '@/lib/db';
 import { Calendar } from '@/components/ui/calendar';
@@ -11,12 +11,11 @@ export default function HistoryPage() {
   const allWorkouts = useLiveQuery(() => db.completedWorkouts.orderBy('date').toArray(), []);
   const [selectedDate, setSelectedDate] = useState<Date | undefined>();
   const [selectedExercise, setSelectedExercise] = useState<{ id: string, name: string } | null>(null);
+  const workoutDates = useMemo(() => allWorkouts?.map(w => new Date(w.date)) || [], [allWorkouts]);
 
-  const workoutDates = allWorkouts?.map(w => new Date(w.date)) || [];
-
-  const selectedWorkout = allWorkouts?.find(w =>
+  const selectedWorkout = useMemo(() => allWorkouts?.find(w =>
     selectedDate && new Date(w.date).toDateString() === selectedDate.toDateString()
-  );
+  ), [allWorkouts, selectedDate]);
 
   return (
     <>
