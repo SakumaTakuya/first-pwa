@@ -23,14 +23,14 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0F172A;
+    --background: #0b111f;
     --foreground: #E2E8F0;
     --primary: #3B82F6;
     --primary-foreground: #E2E8F0;
     --secondary: #334155;
     --secondary-foreground: #E2E8F0;
     --accent: #34D399;
-    --accent-foreground: #0F172A;
+    --accent-foreground: #0b111f;
     --surface: #1E293B;
     --border: #334155;
     --destructive: #F87171;
@@ -88,8 +88,8 @@
 
 @layer components {
   .glass {
-    backdrop-filter: blur(20px) saturate(180%);
-    background: linear-gradient(135deg, rgba(30, 41, 59, 0.7), rgba(30, 41, 59, 0.4));
+    backdrop-filter: blur(8px) saturate(180%);
+    background: linear-gradient(135deg, rgba(92, 141, 255, 0.1), rgba(92, 141, 255, 0.0));
   }
 }
 
