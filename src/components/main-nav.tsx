@@ -30,8 +30,7 @@ export const MainNav: React.FC = () => {
 
   return (
     <nav
-      className="z-30 fixed bottom-0 left-0 right-0 flex flex-rows justify-center items-center"
-      style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}
+      className="z-30 fixed bottom-0 left-0 right-0 flex flex-rows justify-center items-center mb-safe-bottom"
     >
       <div className=" h-20 flex items-center max-w-md flex-grow transition-all duration-150 ease-in-out p-2">
         <div className="flex justify-around grow-1 rounded-full glass border border-border inset-shadow-sm inset-shadow-white/60 shadow-md p-2">
