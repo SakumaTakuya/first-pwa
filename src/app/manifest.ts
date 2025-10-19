@@ -10,8 +10,8 @@ export default function manifest(): MetadataRoute.Manifest {
     start_url: '/first-pwa',
     scope: "/",
     display: 'standalone',
-    background_color: '#0F172A', // From design guidelines
-    theme_color: '#0F172A', // From design guidelines
+    background_color: '#0b111f', // From design guidelines
+    theme_color: '#0b111f', // From design guidelines
     icons: [
       {
         src: '/icon-192.png',
