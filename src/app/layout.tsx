@@ -28,9 +28,12 @@ export const metadata: Metadata = {
   formatDetection: {
     telephone: false,
   },
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
+    { media: "(prefers-color-scheme: dark)", color: "#0b111f" },
+  ],
   other: {
     "mobile-web-app-capable": "yes",
-    "theme-color": "#000000",
   },
 };
 
