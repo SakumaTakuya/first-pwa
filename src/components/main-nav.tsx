@@ -4,14 +4,14 @@ import Link from 'next/link';
 import { useSessionStore } from '@/stores/session-store';
 import { usePathname } from 'next/navigation';
 import { Home, History, Plus, Dumbbell } from 'lucide-react';
-import { useMainNavStore } from '@/stores/ui-store';
+import { useUiStore } from '@/stores/ui-store';
 import { Button } from '@/components/ui/button';
 import { useMemo } from 'react';
 
 export const MainNav: React.FC = () => {
   const { isActive: isSessionActive } = useSessionStore();
   const pathname = usePathname();
-  const { navConfig } = useMainNavStore();
+  const { navConfig } = useUiStore();
 
   const navItems = useMemo(() => [
     isSessionActive ?
