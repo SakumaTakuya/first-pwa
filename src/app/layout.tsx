@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Inter, Noto_Sans_JP } from "next/font/google";
 import "./globals.css";
 import { MainNav } from "@/components/main-nav";
@@ -17,25 +17,32 @@ const notoSansJp = Noto_Sans_JP({
 export const metadata: Metadata = {
   applicationName: "first-pwa",
   title: "first-pwa",
-  description: "This is a first pwa app.",
-  viewport: "width=device-width, initial-scale=1, viewport-fit=cover",
-
+  description: "This is a first pwa app. 2",
   appleWebApp: {
     capable: true,
-    statusBarStyle: "default",
+    statusBarStyle: "black-translucent",
     title: "first-pwa",
   },
   formatDetection: {
     telephone: false,
   },
-  themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
-    { media: "(prefers-color-scheme: dark)", color: "#0b111f" },
-  ],
   other: {
-    "mobile-web-app-capable": "yes",
+    "apple-mobile-web-app-capable": "yes",
   },
 };
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+  minimumScale: 1.0,
+  viewportFit: "cover",
+  themeColor: [
+    { media: "(prefers-color-scheme: dark)", color: "#0b111f" },
+    { media: "(prefers-color-scheme: light)", color: "#ffffff" }
+  ],
+  colorScheme: "dark"
+}
 
 export default function RootLayout({
   children,
@@ -43,9 +50,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="ja" className="bg-background">
       <body
-        className={`${inter.variable} ${notoSansJp.variable} font-sans antialiased`}
+        className={`${inter.variable} ${notoSansJp.variable} antialiased`}
       >
         <div className="min-h-dvh pb-32 animate-fade-in">
           {children}
