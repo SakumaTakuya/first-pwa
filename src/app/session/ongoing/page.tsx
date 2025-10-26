@@ -6,7 +6,7 @@ import { ExerciseCard } from '@/components/exercise-card';
 import { AddExerciseModal } from '@/components/add-exercise-modal';
 import { useRouter } from 'next/navigation';
 import { db } from '@/lib/db';
-import { useMainNavStore } from '@/stores/ui-store';
+import { useUiStore } from '@/stores/ui-store';
 
 export default function OngoingSessionPage() {
   const { exercises: exercisesFromStore, clearSession, isActive, startDate } = useSessionStore();
@@ -14,7 +14,7 @@ export default function OngoingSessionPage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const router = useRouter();
   const [hasHydrated, setHasHydrated] = useState(false);
-  const { setNavConfig, resetNavConfig } = useMainNavStore();
+  const { setNavConfig, resetNavConfig } = useUiStore();
   const formattedStartDate = useMemo(() => {
     if (!startDate) return '';
     return new Date(startDate).toLocaleString('ja-JP', {
@@ -80,34 +80,32 @@ export default function OngoingSessionPage() {
 
   return (
     <>
-      <div className="flex flex-col h-full text-text-main overflow-hidden">
-        <header className="glass border-b border-border z-30 top-0 pt-safe-top sticky flex justify-between items-center mb-6 px-4 sm:px-6">
-          <div className="flex items-baseline space-x-2 py-4">
-            <h1 className="text-2xl font-bold">トレーニング中</h1>
-            {startDate && (
-              <p className="text-sm text-text-sub">{formattedStartDate}</p>
-            )}
-          </div>
-          <button
-            onClick={handleEndSession}
-            className="bg-destructive text-white font-bold rounded-lg px-4 py-2 text-sm"
-          >
-            終了
-          </button>
-        </header>
-
-        <main className="space-y-4 flex-grow px-4 sm:px-6"> {/* Add padding to bottom */}
-          {exercises.length === 0 ? (
-            <div className="text-center py-16">
-              <p className="text-text-sub">まだ種目が追加されていません。</p>
-            </div>
-          ) : (
-            exercises.map((ex) => <ExerciseCard key={ex.id} sessionExercise={ex} />)
+      <header className="glass border-b border-border z-30 top-0 left-0 right-0 pt-safe-top fixed flex justify-between items-center px-4 sm:px-6">
+        <div className="flex items-baseline space-x-2 py-4">
+          <h1 className="text-2xl font-bold text-text-main">トレーニング中</h1>
+          {startDate && (
+            <p className="text-sm text-text-sub">{formattedStartDate}</p>
           )}
-        </main>
+        </div>
+        <button
+          onClick={handleEndSession}
+          className="bg-destructive text-white font-bold rounded-lg px-4 py-2 text-sm"
+        >
+          終了
+        </button>
+      </header>
 
-        {isModalOpen && <AddExerciseModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />}
-      </div>
+      <main className="space-y-4 flex-grow px-4 sm:px-6 pt-20 mt-safe-top"> {/* Add padding to bottom */}
+        {exercises.length === 0 ? (
+          <div className="text-center py-16">
+            <p className="text-text-sub">まだ種目が追加されていません。</p>
+          </div>
+        ) : (
+          exercises.map((ex) => <ExerciseCard key={ex.id} sessionExercise={ex} />)
+        )}
+      </main>
+
+      {isModalOpen && <AddExerciseModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />}
     </>
   );
 }

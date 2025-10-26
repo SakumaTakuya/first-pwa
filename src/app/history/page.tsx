@@ -19,11 +19,10 @@ export default function HistoryPage() {
 
   return (
     <>
-      <div className="min-h-screen bg-background text-text-main p-4 sm:p-6">
-        <header className="mb-6">
-          <h1 className="text-2xl font-bold">トレーニング履歴</h1>
-        </header>
-
+      <header className="glass border-b border-border z-30 top-0 left-0 right-0 pt-safe-top fixed flex justify-between items-center px-4 sm:px-6">
+        <h1 className="text-2xl font-bold text-text-main my-4">トレーニング履歴</h1>
+      </header>
+      <div className="text-text-main p-4 sm:p-6 pt-20 mt-safe-top">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <div className="md:col-span-1">
             <Calendar

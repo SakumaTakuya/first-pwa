@@ -7,7 +7,7 @@ interface NavConfig {
   actionButton: ActionButtonConfig | null;
 }
 
-interface MainNavState {
+interface UiState {
   navConfig: NavConfig;
   setNavConfig: (config: Partial<NavConfig>) => void;
   resetNavConfig: () => void;
@@ -17,7 +17,7 @@ const initialConfig: NavConfig = {
   actionButton: null,
 };
 
-export const useMainNavStore = create<MainNavState>((set) => ({
+export const useUiStore = create<UiState>((set) => ({
   navConfig: initialConfig,
   setNavConfig: (config) => set((state) => ({ navConfig: { ...state.navConfig, ...config } })),
   resetNavConfig: () => set({ navConfig: initialConfig }),
