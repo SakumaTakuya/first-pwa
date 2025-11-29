@@ -2,13 +2,7 @@
 
 import { useState, useRef } from 'react';
 import { Button } from '@/components/ui/button';
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogFooter,
-} from '@/components/ui/dialog';
+import { Modal } from '@/components/ui/modal';
 import { downloadBackup, importData, BackupData } from '@/lib/backup';
 import { Download, Upload, AlertTriangle } from 'lucide-react';
 
@@ -62,53 +56,51 @@ export const SettingsModal = ({ isOpen, onClose }: SettingsModalProps) => {
   };
 
   return (
-    <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-[425px]">
-        <DialogHeader>
-          <DialogTitle>設定</DialogTitle>
-        </DialogHeader>
+    <Modal
+      isOpen={isOpen}
+      onClose={onClose}
+      title="設定"
+      className="sm:max-w-[425px]"
+      footer={
+        <Button onClick={onClose} variant="ghost">
+          閉じる
+        </Button>
+      }
+    >
+      <div className="py-4 space-y-6">
+        <div className="space-y-4">
+          <h3 className="text-lg font-medium">データ管理</h3>
+          <p className="text-sm text-text-sub">
+            データのバックアップと復元を行います。
+          </p>
 
-        <div className="py-4 space-y-6">
-          <div className="space-y-4">
-            <h3 className="text-lg font-medium">データ管理</h3>
-            <p className="text-sm text-text-sub">
-              データのバックアップと復元を行います。
-            </p>
+          <div className="flex flex-col space-y-3">
+            <Button onClick={handleExport} variant="outline" className="w-full justify-start">
+              <Download className="mr-2 h-4 w-4" />
+              データをエクスポート (バックアップ)
+            </Button>
 
-            <div className="flex flex-col space-y-3">
-              <Button onClick={handleExport} variant="outline" className="w-full justify-start">
-                <Download className="mr-2 h-4 w-4" />
-                データをエクスポート (バックアップ)
-              </Button>
-
-              <Button onClick={handleImportClick} variant="outline" className="w-full justify-start" disabled={isImporting}>
-                <Upload className="mr-2 h-4 w-4" />
-                {isImporting ? 'インポート中...' : 'データをインポート (復元)'}
-              </Button>
-              <input
-                type="file"
-                ref={fileInputRef}
-                onChange={handleFileChange}
-                accept=".json"
-                className="hidden"
-              />
-            </div>
-
-            {error && (
-              <div className="flex items-center p-3 text-sm text-destructive bg-destructive/10 rounded-md">
-                <AlertTriangle className="mr-2 h-4 w-4" />
-                {error}
-              </div>
-            )}
+            <Button onClick={handleImportClick} variant="outline" className="w-full justify-start" disabled={isImporting}>
+              <Upload className="mr-2 h-4 w-4" />
+              {isImporting ? 'インポート中...' : 'データをインポート (復元)'}
+            </Button>
+            <input
+              type="file"
+              ref={fileInputRef}
+              onChange={handleFileChange}
+              accept=".json"
+              className="hidden"
+            />
           </div>
-        </div>
 
-        <DialogFooter>
-          <Button onClick={onClose} variant="ghost">
-            閉じる
-          </Button>
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
+          {error && (
+            <div className="flex items-center p-3 text-sm text-destructive bg-destructive/10 rounded-md">
+              <AlertTriangle className="mr-2 h-4 w-4" />
+              {error}
+            </div>
+          )}
+        </div>
+      </div>
+    </Modal>
   );
 };
