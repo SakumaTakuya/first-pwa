@@ -8,7 +8,7 @@ const cardVariants = cva('rounded-xl', {
     variant: {
       default: 'bg-surface text-card-foreground shadow-md',
       island:
-        'glass transition-transform duration-300 hover:-translate-y-1 border border-border inset-shadow-sm inset-shadow-white/60',
+        'glass transition-transform duration-300 hover:-translate-y-1 border border-border',
     },
   },
   defaultVariants: {

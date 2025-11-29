@@ -16,7 +16,7 @@ const buttonVariants = cva(
         'ghost-accent': 'text-accent hover:bg-secondary',
         'ghost-destructive': 'text-destructive hover:bg-secondary',
         link: 'text-primary underline-offset-4 hover:underline',
-        fab: 'bg-primary text-primary-foreground rounded-full inset-shadow-sm inset-shadow-white/60 shadow-md shadow-primary',
+        fab: 'bg-primary text-primary-foreground rounded-full shadow-md',
       },
       size: {
         default: 'h-10 px-4 py-2',
