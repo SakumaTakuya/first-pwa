@@ -10,7 +10,7 @@ export type CalendarProps = DayPickerProps;
 function Calendar({ className, ...props }: CalendarProps) {
   return (
     <DayPicker
-      className={cn('bg-surface rounded-xl p-4', className)}
+      className={cn('glass border-border border rounded-xl p-4 shadow-md', className)}
       {...props}
     />
   );

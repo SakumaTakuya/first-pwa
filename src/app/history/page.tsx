@@ -6,6 +6,7 @@ import { db } from '@/lib/db';
 import { Calendar } from '@/components/ui/calendar';
 import { ja } from 'date-fns/locale';
 import { ProgressGraphModal } from '@/components/progress-graph-modal';
+import { Button } from '@/components/ui/button';
 
 export default function HistoryPage() {
   const allWorkouts = useLiveQuery(() => db.completedWorkouts.orderBy('date').toArray(), []);
@@ -35,18 +36,19 @@ export default function HistoryPage() {
             />
           </div>
           <div className="md:col-span-2">
-            <h2 className="text-xl font-bold mb-4">記録詳細</h2>
+            <h2 className="text-2xl font-bold mb-4">記録詳細</h2>
             {selectedWorkout ? (
-              <div className="bg-surface rounded-xl p-4 space-y-4">
-                <h3 className="font-bold">{selectedDate?.toLocaleDateString('ja-JP')}</h3>
+              <div className="glass border border-border rounded-xl p-4 space-y-4 shadow-md">
+                <h3 className="text-xl font-bold">{selectedDate?.toLocaleDateString('ja-JP')}</h3>
                 {selectedWorkout.exercises.map(ex => (
                   <div key={ex.id}>
-                    <button
+                    <Button
+                      variant="ghost"
                       onClick={() => setSelectedExercise({ id: ex.exerciseId, name: ex.exerciseName })}
-                      className="font-bold text-text-main hover:text-accent transition-colors w-full text-left"
+                      className="w-full justify-start p-0 h-auto font-bold text-text-main hover:text-accent hover:bg-transparent"
                     >
                       {ex.exerciseName}
-                    </button>
+                    </Button>
                     <ul className="pl-4 space-y-1 mt-1">
                       {ex.sets.map(set => (
                         <li key={set.id} className="text-text-sub">
@@ -58,7 +60,7 @@ export default function HistoryPage() {
                 ))}
               </div>
             ) : (
-              <div className="bg-surface rounded-xl p-4 text-center text-text-sub">
+              <div className="glass border border-border rounded-xl p-4 text-center text-text-sub shadow-md">
                 <p>カレンダーから日付を選択してください。</p>
               </div>
             )}
