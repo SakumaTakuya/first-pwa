@@ -72,7 +72,7 @@ export const AddExerciseModal = ({ isOpen, onClose }: AddExerciseModalProps) => 
           {/* History List */}
           {searchQuery.length === 0 && historyExercises.length > 0 && (
             <div className="mb-6">
-              <h3 className="text-lg font-bold text-text-sub mb-2">履歴</h3>
+              <h3 className="text-lg font-bold mb-2">履歴</h3>
               <ul className="space-y-2">
                 {historyExercises.map((ex) => (
                   <li key={`hist-${ex!.id}`}>
@@ -90,7 +90,7 @@ export const AddExerciseModal = ({ isOpen, onClose }: AddExerciseModalProps) => 
           )}
 
           {/* Filtered List */}
-          <h3 className="text-lg font-bold text-text-sub mb-2">種目一覧</h3>
+          <h3 className="text-lg font-bold mb-2">種目一覧</h3>
           {filteredList.length > 0 && (
             <ul className="space-y-2">
               {filteredList.map((ex) => (
@@ -109,7 +109,7 @@ export const AddExerciseModal = ({ isOpen, onClose }: AddExerciseModalProps) => 
 
           {filteredList.length === 0 && searchQuery.length > 0 && (
             <div className="text-center p-4">
-              <p className="text-text-sub mb-4">「{searchQuery}」に一致する種目はありません。</p>
+              <p className="mb-4">「{searchQuery}」に一致する種目はありません。</p>
             </div>
           )}
 
