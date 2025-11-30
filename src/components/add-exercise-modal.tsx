@@ -3,6 +3,8 @@
 import { useMasterDataStore } from '@/stores/master-data-store';
 import { useSessionStore } from '@/stores/session-store';
 import { useState } from 'react';
+import { useLiveQuery } from 'dexie-react-hooks';
+import { db } from '@/lib/db';
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
@@ -20,13 +22,14 @@ interface AddExerciseModalProps {
 
 export const AddExerciseModal = ({ isOpen, onClose }: AddExerciseModalProps) => {
   const {
-    masterExerciseList,
     exerciseHistory,
     addExerciseToHistory,
-    addNewExerciseToMasterList,
   } = useMasterDataStore();
   const { addExerciseToSession } = useSessionStore();
   const [searchQuery, setSearchQuery] = useState('');
+
+  const exercises = useLiveQuery(() => db.exercises.toArray());
+  const masterExerciseList = exercises || [];
 
   const handleSelectExercise = (exercise: { id: string; name: string }) => {
     addExerciseToSession(exercise);
@@ -34,8 +37,12 @@ export const AddExerciseModal = ({ isOpen, onClose }: AddExerciseModalProps) => 
     onClose();
   };
 
-  const handleAddNewExercise = () => {
-    const newExercise = addNewExerciseToMasterList(searchQuery);
+  const handleAddNewExercise = async () => {
+    const newExercise = {
+      id: searchQuery.toLowerCase().replace(/\s+/g, '-'),
+      name: searchQuery,
+    };
+    await db.exercises.add(newExercise);
     handleSelectExercise(newExercise);
   };
 
